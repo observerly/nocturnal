@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  go: &go
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: observerly_local_nocturnal
+    container_name: observerly_nocturnal
+    ports:
+      - "8103:8103"
+    env_file:
+      - .env
