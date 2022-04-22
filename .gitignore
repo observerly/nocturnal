@@ -13,3 +13,8 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Environment Files
+.env
+.env.*
+!.env-template
