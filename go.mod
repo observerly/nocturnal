@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.7.7
-	github.com/observerly/dusk v0.0.0-20220422170807-58d07f0c9c87
+	github.com/observerly/dusk v1.1.0
 	github.com/stretchr/testify v1.7.1
 )
 
