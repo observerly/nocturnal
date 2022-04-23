@@ -24,7 +24,7 @@ var (
 
 var version = getAPIVersionFromEnv()
 
-func main() {
+func setupRouter() *gin.Engine {
 	mode := os.Getenv("GIN_MODE")
 
 	if mode == "release" {
@@ -62,6 +62,12 @@ func main() {
 	r.NoRoute(func(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/api/v1")
 	})
+
+	return r
+}
+
+func main() {
+	r := setupRouter()
 
 	// Listen on port
 	log.Fatal(r.Run(*port))
