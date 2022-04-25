@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/observerly/nocturnal/internal/router"
+	"github.com/observerly/nocturnal/pkg/sun"
 )
 
 var (
@@ -16,6 +17,8 @@ func main() {
 	flag.Parse()
 
 	r := router.SetupRouter()
+
+	r.GET("/api/v1/sun", sun.GetSun)
 
 	// Listen on port
 	log.Fatal(r.Run(*port))
