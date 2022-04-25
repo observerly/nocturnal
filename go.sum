@@ -28,6 +28,8 @@ github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 h1:Esafd1046DLD
 github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742/go.mod h1:bx2lNnkwVCuqBIxFjflWJWanXIb3RllmbCylyMrvgv0=
 github.com/observerly/dusk v1.1.0 h1:eulWuFULKcSTH/wub+eT8oPCbwFrkatWVCan8s6vPa8=
 github.com/observerly/dusk v1.1.0/go.mod h1:ABt8hslu9e+iax4vAigf4l+lC4JNUAE02GD0A87VKeU=
+github.com/observerly/dusk v1.3.0 h1:hff286XnlAmHLqN6XZExCaQQ1P/r2tFc9sHRw7pLGhk=
+github.com/observerly/dusk v1.3.0/go.mod h1:ABt8hslu9e+iax4vAigf4l+lC4JNUAE02GD0A87VKeU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
