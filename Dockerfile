@@ -19,8 +19,3 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=build /go/src/nocturnal/app .
-
-# Exposes port 8003 because our program listens on that port
-EXPOSE 8103
-
-CMD ["./app"]

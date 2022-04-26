@@ -5,9 +5,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: observerly_local_nocturnal
+    image: observerly/nocturnal:latest
     container_name: observerly_nocturnal
     ports:
       - "8103:8103"
     env_file:
       - .env
+    command:
+      - "./app"
