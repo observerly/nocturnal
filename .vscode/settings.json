@@ -3,5 +3,8 @@
     "editor.insertSpaces": true,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "golang.go"
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/michael/Developer/observerly/nocturnal/.github/workflows/deploy.yml"
   }
 }
