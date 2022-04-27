@@ -7,6 +7,7 @@ import (
 	"github.com/observerly/nocturnal/internal/router"
 	"github.com/observerly/nocturnal/pkg/moon"
 	"github.com/observerly/nocturnal/pkg/sun"
+	"github.com/observerly/nocturnal/pkg/twilight"
 )
 
 var (
@@ -24,6 +25,9 @@ func main() {
 
 	// Sun Properties API
 	r.GET("/api/v1/sun", sun.GetSun)
+
+	// Twilight Properties API
+	r.GET("/api/v1/twilight", twilight.GetTwilight)
 
 	// Listen on port
 	log.Fatal(r.Run(*port))
