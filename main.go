@@ -19,8 +19,11 @@ func main() {
 
 	r := router.SetupRouter()
 
-	r.GET("/api/v1/sun", sun.GetSun)
+	// Moon Properties API
 	r.GET("/api/v1/moon", moon.GetMoon)
+
+	// Sun Properties API
+	r.GET("/api/v1/sun", sun.GetSun)
 
 	// Listen on port
 	log.Fatal(r.Run(*port))
