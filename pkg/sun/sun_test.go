@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func SetupMoonRouter() *gin.Engine {
+func SetupSunRouter() *gin.Engine {
 	mode := os.Getenv("GIN_MODE")
 
 	if mode == "release" {
@@ -27,7 +27,7 @@ func SetupMoonRouter() *gin.Engine {
 }
 
 // Setup the Gin API router:
-var r = SetupMoonRouter()
+var r = SetupSunRouter()
 
 // Setup the base response struct:
 var response map[string]map[string]string
