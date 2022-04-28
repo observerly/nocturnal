@@ -19,3 +19,11 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=build /go/src/nocturnal/app .
+
+# The time zone database needed by LoadLocation may not be present on all systems, especially 
+# non-Unix systems. LoadLocation looks in the directory or uncompressed zip file named by the 
+# ZONEINFO environment variable, if any, then looks in known installation locations on Unix 
+# systems, and finally looks in $GOROOT/lib/time/zoneinfo.zip.
+ADD https://github.com/golang/go/raw/master/lib/time/zoneinfo.zip /zoneinfo.zip
+
+ENV ZONEINFO /zoneinfo.zip
