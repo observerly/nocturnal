@@ -28,6 +28,9 @@ func SetupRouter() *gin.Engine {
 	// Create gin router
 	r := gin.Default()
 
+	// Logging middleware
+	r.Use(gin.Logger())
+
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	r.Use(gin.CustomRecovery(func(c *gin.Context, recovered interface{}) {
 		if err, ok := recovered.(string); ok {
