@@ -24,23 +24,52 @@ func GetTwilight(c *gin.Context) {
 
 	latitude, _ := strconv.ParseFloat(lat, 64)
 
-	t, location, _ := dusk.GetLocalAstronomicalTwilight(datetime, longitude, latitude, 0)
-
 	observer := gin.H{
 		"datetime":  datetime,
 		"longitude": fmt.Sprintf("%f", longitude),
 		"latitude":  fmt.Sprintf("%f", latitude),
 	}
 
-	twilight := gin.H{
-		"from":     t.From.Format(time.RFC3339),
-		"until":    t.Until.Format(time.RFC3339),
-		"duration": float64(t.Duration.Milliseconds()) * 0.001 / 3600,
+	// Civil Twilight:
+
+	civil, location, _ := dusk.GetLocalCivilTwilight(datetime, longitude, latitude, 0)
+
+	ct := gin.H{
+		"from":     civil.From.Format(time.RFC3339),
+		"until":    civil.Until.Format(time.RFC3339),
+		"duration": float64(civil.Duration.Milliseconds()) * 0.001 / 3600,
 		"location": location.String(),
+		"horizon":  -6,
+	}
+
+	// Nautical Twilight:
+
+	nautical, location, _ := dusk.GetLocalNauticalTwilight(datetime, longitude, latitude, 0)
+
+	nt := gin.H{
+		"from":     nautical.From.Format(time.RFC3339),
+		"until":    nautical.Until.Format(time.RFC3339),
+		"duration": float64(nautical.Duration.Milliseconds()) * 0.001 / 3600,
+		"location": location.String(),
+		"horizon":  -12,
+	}
+
+	// Astronomical Twilight:
+
+	astronomical, location, _ := dusk.GetLocalAstronomicalTwilight(datetime, longitude, latitude, 0)
+
+	at := gin.H{
+		"from":     astronomical.From.Format(time.RFC3339),
+		"until":    astronomical.Until.Format(time.RFC3339),
+		"duration": float64(astronomical.Duration.Milliseconds()) * 0.001 / 3600,
+		"location": location.String(),
+		"horizon":  -18,
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"observer": observer,
-		"twilight": twilight,
+		"observer":     observer,
+		"astronomical": at,
+		"civil":        ct,
+		"nautical":     nt,
 	})
 }

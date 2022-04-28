@@ -77,7 +77,7 @@ func TestGetTwilightRouteObserver(t *testing.T) {
 	assert.Equal(t, longitude, observer["longitude"])
 }
 
-func TestGetTwilightRouteTwilight(t *testing.T) {
+func TestGetTwilightRouteAstronomicalTwilight(t *testing.T) {
 	// Build our expected twilight section of body
 	twilight := gin.H{
 		"duration": 8.563931944444445,
@@ -90,19 +90,91 @@ func TestGetTwilightRouteTwilight(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 
 	// Grab the twilight & whether or not it exists
-	duration, exists := response["twilight"]["duration"]
+	duration, exists := response["astronomical"]["duration"]
 	assert.True(t, exists)
 
 	// Grab the twilight & whether or not it exists
-	from, exists := response["twilight"]["from"]
+	from, exists := response["astronomical"]["from"]
 	assert.True(t, exists)
 
 	// Grab the twilight & whether or not it exists
-	location, exists := response["twilight"]["location"]
+	location, exists := response["astronomical"]["location"]
 	assert.True(t, exists)
 
 	// Grab the twilight & whether or not it exists
-	until, exists := response["twilight"]["until"]
+	until, exists := response["astronomical"]["until"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, duration, twilight["duration"])
+	assert.Equal(t, from, twilight["from"])
+	assert.Equal(t, location, twilight["location"])
+	assert.Equal(t, until, twilight["until"])
+}
+
+func TestGetTwilightRouteCivilTwilight(t *testing.T) {
+	// Build our expected twilight section of body
+	twilight := gin.H{
+		"duration": 10.228770555555556,
+		"from":     "2021-05-14T19:11:19-10:00",
+		"location": "Pacific/Honolulu",
+		"until":    "2021-05-15T05:25:03-10:00",
+	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Grab the twilight & whether or not it exists
+	duration, exists := response["civil"]["duration"]
+	assert.True(t, exists)
+
+	// Grab the twilight & whether or not it exists
+	from, exists := response["civil"]["from"]
+	assert.True(t, exists)
+
+	// Grab the twilight & whether or not it exists
+	location, exists := response["civil"]["location"]
+	assert.True(t, exists)
+
+	// Grab the twilight & whether or not it exists
+	until, exists := response["civil"]["until"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, duration, twilight["duration"])
+	assert.Equal(t, from, twilight["from"])
+	assert.Equal(t, location, twilight["location"])
+	assert.Equal(t, until, twilight["until"])
+}
+
+func TestGetTwilightRouteNauticalTwilight(t *testing.T) {
+	// Build our expected twilight section of body
+	twilight := gin.H{
+		"duration": 9.402505555555557,
+		"from":     "2021-05-14T19:36:08-10:00",
+		"location": "Pacific/Honolulu",
+		"until":    "2021-05-15T05:00:17-10:00",
+	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Grab the twilight & whether or not it exists
+	duration, exists := response["nautical"]["duration"]
+	assert.True(t, exists)
+
+	// Grab the twilight & whether or not it exists
+	from, exists := response["nautical"]["from"]
+	assert.True(t, exists)
+
+	// Grab the twilight & whether or not it exists
+	location, exists := response["nautical"]["location"]
+	assert.True(t, exists)
+
+	// Grab the twilight & whether or not it exists
+	until, exists := response["nautical"]["until"]
 	assert.True(t, exists)
 
 	// Assert on the correctness of the response:
