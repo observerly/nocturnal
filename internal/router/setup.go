@@ -28,6 +28,19 @@ func SetupRouter() *gin.Engine {
 	// Create gin router
 	r := gin.Default()
 
+	// Recovery middleware recovers from any panics and writes a 500 if there was one.
+	r.Use(gin.CustomRecovery(func(c *gin.Context, recovered interface{}) {
+		if err, ok := recovered.(string); ok {
+			c.JSON(
+				http.StatusInternalServerError,
+				gin.H{
+					"error": err,
+				},
+			)
+		}
+		c.AbortWithStatus(http.StatusInternalServerError)
+	}))
+
 	r.GET("/version", func(c *gin.Context) {
 		c.JSON(
 			http.StatusOK,
