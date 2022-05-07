@@ -80,8 +80,8 @@ func TestGetSunRouteObserver(t *testing.T) {
 func TestGetSunRoutePosition(t *testing.T) {
 	// Build our expected position section of body
 	position := gin.H{
-		"alt": "65.984462",
-		"az":  "88.483843",
+		"alt": "65.984873",
+		"az":  "88.483967",
 		"dec": "18.634152",
 		"ra":  "51.065497",
 	}

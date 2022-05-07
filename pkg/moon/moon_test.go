@@ -122,8 +122,8 @@ func TestGetMoonRoutePhase(t *testing.T) {
 func TestGetMoonRoutePosition(t *testing.T) {
 	// Build our expected position section of body
 	position := gin.H{
-		"alt": "86.192481",
-		"az":  "3.481574",
+		"alt": "86.192506",
+		"az":  "3.475550",
 		"dec": "23.598793",
 		"ra":  "76.239624",
 	}
