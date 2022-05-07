@@ -33,6 +33,8 @@ func GetMoon(c *gin.Context) {
 
 	ph := dusk.GetLunarPhase(datetime, longitude, ec)
 
+	rs, _ := dusk.GetMoonriseMoonsetTimes(datetime, longitude, latitude)
+
 	observer := gin.H{
 		"datetime":  datetime,
 		"longitude": fmt.Sprintf("%f", longitude),
@@ -54,9 +56,24 @@ func GetMoon(c *gin.Context) {
 		"illumination": fmt.Sprintf("%f", ph.Illumination),
 	}
 
+	transit := gin.H{}
+
+	if rs.Rise.IsZero() {
+		transit["rise"] = nil
+	} else {
+		transit["rise"] = rs.Rise.Format(time.RFC3339)
+	}
+
+	if rs.Set.IsZero() {
+		transit["set"] = nil
+	} else {
+		transit["set"] = rs.Set.Format(time.RFC3339)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"observer": observer,
 		"position": position,
 		"phase":    phase,
+		"transit":  transit,
 	})
 }
