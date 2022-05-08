@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,6 +44,15 @@ func SetupRouter() *gin.Engine {
 			)
 		}
 		c.AbortWithStatus(http.StatusInternalServerError)
+	}))
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"https://observerly.com", "https://app.observerly.com"},
+		AllowMethods:     []string{"GET", "OPTIONS"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           24 * time.Hour,
 	}))
 
 	r.GET("/version", func(c *gin.Context) {
