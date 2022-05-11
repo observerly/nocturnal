@@ -15,17 +15,25 @@ Nocturnal is observerly's Gin Gonic API for Lunar and Solar advanced scheduling,
 The Nocturnal development stack can be built with the following `docker` `compose` command:
 
 ```console
-$ docker compose build"
+$ docker compose -f local.yml build"
 ```
 
 The Nocturnal development stack can then be started with:
 
 ```console
-$ docker compose up"
+$ docker compose -f local.yml up"
 ```
 
 or simply by utilising the following go command:
 
 ```console
 go run main.go
+```
+
+### Testing
+
+The Nocturnal development stack can be tested with the following command:
+
+```console
+GIN_MODE=release bash -c "go test ./... -race -coverprofile=coverage.txt -covermode=atomic -v"
 ```
