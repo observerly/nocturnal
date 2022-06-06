@@ -7,6 +7,7 @@ import (
 	"github.com/observerly/nocturnal/internal/router"
 	"github.com/observerly/nocturnal/pkg/moon"
 	"github.com/observerly/nocturnal/pkg/sun"
+	"github.com/observerly/nocturnal/pkg/transit"
 	"github.com/observerly/nocturnal/pkg/twilight"
 )
 
@@ -25,6 +26,9 @@ func main() {
 
 	// Sun Properties API
 	r.GET("/api/v1/sun", sun.GetSun)
+
+	// Transit Properties API
+	r.GET("/api/v1/transit", transit.GetTransit)
 
 	// Twilight Properties API
 	r.GET("/api/v1/twilight", twilight.GetTwilight)
