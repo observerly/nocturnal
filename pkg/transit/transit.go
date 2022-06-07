@@ -39,12 +39,12 @@ func GetTransit(c *gin.Context) {
 
 	rs, _ := dusk.GetObjectRiseObjectSetTimes(datetime, eq, latitude, longitude)
 
-	if rs.Rise.After(*rs.Rise) && rs.Rise.Day() >= datetime.Day() {
-		yesterday, _ := dusk.GetObjectRiseObjectSetTimes(datetime.Add(time.Hour*24), eq, latitude, longitude)
+	if rs.Rise != nil && rs.Rise.After(*rs.Set) && rs.Rise.Day() > datetime.Day() {
+		yesterday, _ := dusk.GetObjectRiseObjectSetTimes(datetime.Add(time.Hour*-24), eq, latitude, longitude)
 		rs.Rise = yesterday.Rise
 	}
 
-	if rs.Set.Before(*rs.Rise) && rs.Set.Day() <= datetime.Day() {
+	if rs.Set != nil && rs.Set.Before(*rs.Rise) && rs.Set.Day() < datetime.Day() {
 		tomorrow, _ := dusk.GetObjectRiseObjectSetTimes(datetime.Add(time.Hour*24), eq, latitude, longitude)
 		rs.Set = tomorrow.Set
 	}
@@ -63,8 +63,8 @@ func GetTransit(c *gin.Context) {
 	}
 
 	transit := gin.H{
-		"rise": rs.Rise.Format(time.RFC3339),
-		"set":  rs.Set.Format(time.RFC3339),
+		"rise": utils.FormatDatetimeRFC3339(rs.Rise),
+		"set":  utils.FormatDatetimeRFC3339(rs.Set),
 	}
 
 	c.JSON(http.StatusOK, gin.H{

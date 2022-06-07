@@ -19,8 +19,6 @@ github.com/observerly/nocturnal/internal/router/setup.go:38.40,45.4 1 0
 github.com/observerly/nocturnal/internal/router/setup.go:58.41,65.3 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:68.40,77.3 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:80.33,82.3 1 1
-github.com/observerly/nocturnal/pkg/twilight/twilight.go:14.34,75.2 14 1
-github.com/observerly/nocturnal/pkg/sun/sun.go:15.29,57.2 13 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:15.30,61.22 16 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:67.2,67.21 1 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:73.2,78.4 1 1
@@ -28,8 +26,10 @@ github.com/observerly/nocturnal/pkg/moon/moon.go:61.22,63.3 1 0
 github.com/observerly/nocturnal/pkg/moon/moon.go:63.8,65.3 1 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:67.21,69.3 1 0
 github.com/observerly/nocturnal/pkg/moon/moon.go:69.8,71.3 1 1
-github.com/observerly/nocturnal/pkg/transit/transit.go:15.33,42.64 14 1
-github.com/observerly/nocturnal/pkg/transit/transit.go:47.2,47.63 1 1
-github.com/observerly/nocturnal/pkg/transit/transit.go:52.2,74.4 4 1
-github.com/observerly/nocturnal/pkg/transit/transit.go:42.64,45.3 2 0
-github.com/observerly/nocturnal/pkg/transit/transit.go:47.63,50.3 2 1
+github.com/observerly/nocturnal/pkg/twilight/twilight.go:14.34,75.2 14 1
+github.com/observerly/nocturnal/pkg/transit/transit.go:15.33,42.80 14 2
+github.com/observerly/nocturnal/pkg/transit/transit.go:47.2,47.79 1 2
+github.com/observerly/nocturnal/pkg/transit/transit.go:52.2,74.4 4 2
+github.com/observerly/nocturnal/pkg/transit/transit.go:42.80,45.3 2 0
+github.com/observerly/nocturnal/pkg/transit/transit.go:47.79,50.3 2 1
+github.com/observerly/nocturnal/pkg/sun/sun.go:15.29,57.2 13 1
