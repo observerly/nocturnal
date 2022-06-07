@@ -2,7 +2,6 @@ package transit
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -42,6 +41,9 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 
 // Perform a GET request with that handler.
 var w = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=7.407064")
+
+// Perform a GET request with that handler.
+var x = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=-77.407064")
 
 func TestTransitRouteStatusCode(t *testing.T) {
 	// Assert we encoded correctly, the request gives a 200:
@@ -94,8 +96,6 @@ func TestGetSunRoutePosition(t *testing.T) {
 	alt, exists := response["position"]["alt"]
 	assert.True(t, exists)
 
-	fmt.Println(alt)
-
 	// Grab the position & whether or not it exists
 	az, exists := response["position"]["az"]
 	assert.True(t, exists)
@@ -125,6 +125,30 @@ func TestGetTransitRouteTransit(t *testing.T) {
 
 	// Convert the JSON response:
 	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Grab the transit & whether or not it exists
+	rise, exists := response["transit"]["rise"]
+	assert.True(t, exists)
+
+	// Grab the transit & whether or not it exists
+	set, exists := response["transit"]["set"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, rise, transit["rise"])
+	assert.Equal(t, set, transit["set"])
+}
+
+func TestGetTransitRouteTransitNotAboveHorizon(t *testing.T) {
+	// Build our expected transit section of body
+	transit := gin.H{
+		"rise": "",
+		"set":  "",
+	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(x.Body.Bytes(), &response)
 
 	// Grab the transit & whether or not it exists
 	rise, exists := response["transit"]["rise"]
