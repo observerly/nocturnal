@@ -34,3 +34,22 @@ func TestParseDatetimeRFC3339Alt(t *testing.T) {
 	assert.Equal(t, datetime.Minute(), 0)
 	assert.Equal(t, datetime.Second(), 0)
 }
+
+func TestFormatDatetimeRFC3339(t *testing.T) {
+	d := time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)
+
+	datetime := FormatDatetimeRFC3339(&d)
+
+	// Assert we get the correctly parse datetime:
+	assert.Equal(t, *datetime, "2006-01-02T15:04:05Z")
+}
+
+func TestFormatDatetimeRFC3339Nil(t *testing.T) {
+	var d *time.Time
+
+	datetime := FormatDatetimeRFC3339(d)
+
+	// Assert we get the correctly parse datetime:
+
+	assert.Equal(t, datetime, (*string)(nil))
+}

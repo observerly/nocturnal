@@ -1,5 +1,8 @@
 mode: atomic
 github.com/observerly/nocturnal/internal/utils/datetime.go:5.56,7.2 1 2
+github.com/observerly/nocturnal/internal/utils/datetime.go:9.50,10.14 1 2
+github.com/observerly/nocturnal/internal/utils/datetime.go:15.2,15.12 1 1
+github.com/observerly/nocturnal/internal/utils/datetime.go:10.14,13.3 2 1
 github.com/observerly/nocturnal/internal/router/setup.go:13.36,15.13 2 1
 github.com/observerly/nocturnal/internal/router/setup.go:18.2,18.14 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:15.13,17.3 1 1
@@ -16,6 +19,8 @@ github.com/observerly/nocturnal/internal/router/setup.go:38.40,45.4 1 0
 github.com/observerly/nocturnal/internal/router/setup.go:58.41,65.3 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:68.40,77.3 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:80.33,82.3 1 1
+github.com/observerly/nocturnal/pkg/twilight/twilight.go:14.34,75.2 14 1
+github.com/observerly/nocturnal/pkg/sun/sun.go:15.29,57.2 13 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:15.30,61.22 16 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:67.2,67.21 1 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:73.2,78.4 1 1
@@ -23,8 +28,6 @@ github.com/observerly/nocturnal/pkg/moon/moon.go:61.22,63.3 1 0
 github.com/observerly/nocturnal/pkg/moon/moon.go:63.8,65.3 1 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:67.21,69.3 1 0
 github.com/observerly/nocturnal/pkg/moon/moon.go:69.8,71.3 1 1
-github.com/observerly/nocturnal/pkg/sun/sun.go:15.29,57.2 13 1
-github.com/observerly/nocturnal/pkg/twilight/twilight.go:14.34,75.2 14 1
 github.com/observerly/nocturnal/pkg/transit/transit.go:15.33,42.64 14 1
 github.com/observerly/nocturnal/pkg/transit/transit.go:47.2,47.63 1 1
 github.com/observerly/nocturnal/pkg/transit/transit.go:52.2,74.4 4 1
