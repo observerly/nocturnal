@@ -37,6 +37,12 @@ func GetTransit(c *gin.Context) {
 
 	hz := dusk.ConvertEquatorialCoordinateToHorizontal(datetime, longitude, latitude, eq)
 
+	mec := dusk.GetLunarEclipticPosition(datetime)
+
+	meq := dusk.GetLunarEquatorialPosition(datetime)
+
+	mph := dusk.GetLunarPhase(datetime, longitude, mec)
+
 	rs, _ := dusk.GetObjectRiseObjectSetTimes(datetime, eq, latitude, longitude)
 
 	if rs.Rise != nil && rs.Rise.After(*rs.Set) && rs.Rise.Day() > datetime.Day() {
@@ -47,6 +53,17 @@ func GetTransit(c *gin.Context) {
 	if rs.Set != nil && rs.Set.Before(*rs.Rise) && rs.Set.Day() < datetime.Day() {
 		tomorrow, _ := dusk.GetObjectRiseObjectSetTimes(datetime.Add(time.Hour*24), eq, latitude, longitude)
 		rs.Set = tomorrow.Set
+	}
+
+	separation := dusk.GetAngularSeparation(dusk.Coordinate{Latitude: eq.Declination, Longitude: eq.RightAscension}, dusk.Coordinate{Latitude: meq.Declination, Longitude: meq.RightAscension})
+
+	phase := gin.H{
+		"age":          fmt.Sprintf("%f", mph.Days),
+		"angle":        fmt.Sprintf("%f", mph.Angle),
+		"d":            fmt.Sprintf("%f", mph.Age),
+		"fraction":     fmt.Sprintf("%f", mph.Fraction),
+		"illumination": fmt.Sprintf("%f", mph.Illumination),
+		"separation":   fmt.Sprintf("%f", separation),
 	}
 
 	observer := gin.H{
@@ -68,6 +85,7 @@ func GetTransit(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
+		"phase":    phase,
 		"observer": observer,
 		"position": position,
 		"transit":  transit,

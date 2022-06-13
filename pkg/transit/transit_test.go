@@ -50,6 +50,54 @@ func TestTransitRouteStatusCode(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
+func TestGetTransitRouteMoon(t *testing.T) {
+	// Build our expected observer section of body
+	phase := gin.H{
+		"age":          "1.222229",
+		"angle":        "156.463908",
+		"d":            "23.476597",
+		"fraction":     "0.041389",
+		"illumination": "4.159564",
+		"separation":   "20.180567",
+	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Grab the phase & whether or not it exists
+	age, exists := response["phase"]["age"]
+	assert.True(t, exists)
+
+	// Grab the phase & whether or not it exists
+	angle, exists := response["phase"]["angle"]
+	assert.True(t, exists)
+
+	// Grab the phase & whether or not it exists
+	d, exists := response["phase"]["d"]
+	assert.True(t, exists)
+
+	// Grab the phase & whether or not it exists
+	fraction, exists := response["phase"]["fraction"]
+	assert.True(t, exists)
+
+	// Grab the phase & whether or not it exists
+	illumination, exists := response["phase"]["illumination"]
+	assert.True(t, exists)
+
+	// Grab the phase & whether or not it exists
+	separation, exists := response["phase"]["separation"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, age, phase["age"])
+	assert.Equal(t, angle, phase["angle"])
+	assert.Equal(t, d, phase["d"])
+	assert.Equal(t, fraction, phase["fraction"])
+	assert.Equal(t, illumination, phase["illumination"])
+	assert.Equal(t, separation, phase["separation"])
+}
+
 func TestGetTransitRouteObserver(t *testing.T) {
 	// Build our expected observer section of body
 	observer := gin.H{
