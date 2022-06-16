@@ -1,6 +1,6 @@
-# Nocturnal 🌑
+![@observerly:nocturnal](https://user-images.githubusercontent.com/84131395/174099920-eda972ff-2493-4eea-b572-e31394cd0d36.jpg)
 
-Nocturnal is observerly's Gin Gonic API for Lunar and Solar advanced scheduling, that utilises [Dusk](https://github.com/observerly/dusk).
+Nocturnal 🌑 is observerly's Gin Gonic API for Lunar and Solar advanced scheduling, that utilises [Dusk](https://github.com/observerly/dusk).
 
 ## API Development
 
