@@ -131,6 +131,7 @@ func TestGetTransitRouteObserver(t *testing.T) {
 func TestGetTransitRoutePosition(t *testing.T) {
 	// Build our expected position section of body
 	position := gin.H{
+		"R":   "0.005219",
 		"X":   "1.046558",
 		"alt": "72.800589",
 		"az":  "134.396672",
