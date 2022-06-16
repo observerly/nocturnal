@@ -55,6 +55,8 @@ func GetTransit(c *gin.Context) {
 		rs.Set = tomorrow.Set
 	}
 
+	airmass := dusk.GetRelativeAirMass(hz.Altitude)
+
 	separation := dusk.GetAngularSeparation(dusk.Coordinate{Latitude: eq.Declination, Longitude: eq.RightAscension}, dusk.Coordinate{Latitude: meq.Declination, Longitude: meq.RightAscension})
 
 	phase := gin.H{
@@ -77,6 +79,7 @@ func GetTransit(c *gin.Context) {
 		"az":  fmt.Sprintf("%f", hz.Azimuth),
 		"ra":  fmt.Sprintf("%f", rightAscension),
 		"dec": fmt.Sprintf("%f", declination),
+		"X":   fmt.Sprintf("%f", airmass),
 	}
 
 	transit := gin.H{
