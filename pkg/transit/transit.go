@@ -45,16 +45,6 @@ func GetTransit(c *gin.Context) {
 
 	rs, _ := dusk.GetObjectRiseObjectSetTimes(datetime, eq, latitude, longitude)
 
-	if rs.Rise != nil && rs.Rise.After(*rs.Set) && rs.Rise.Day() > datetime.Day() {
-		yesterday, _ := dusk.GetObjectRiseObjectSetTimes(datetime.Add(time.Hour*-24), eq, latitude, longitude)
-		rs.Rise = yesterday.Rise
-	}
-
-	if rs.Set != nil && rs.Set.Before(*rs.Rise) && rs.Set.Day() < datetime.Day() {
-		tomorrow, _ := dusk.GetObjectRiseObjectSetTimes(datetime.Add(time.Hour*24), eq, latitude, longitude)
-		rs.Set = tomorrow.Set
-	}
-
 	airmass := dusk.GetRelativeAirMass(hz.Altitude)
 
 	refraction := dusk.GetAtmosphericRefraction(hz.Altitude)
