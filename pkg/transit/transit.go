@@ -43,7 +43,7 @@ func GetTransit(c *gin.Context) {
 
 	mph := dusk.GetLunarPhase(datetime, longitude, mec)
 
-	rs, _ := dusk.GetObjectRiseObjectSetTimes(datetime, eq, latitude, longitude)
+	tr, _ := dusk.GetObjectTransit(datetime, eq, latitude, longitude)
 
 	airmass := dusk.GetRelativeAirMass(hz.Altitude)
 
@@ -76,8 +76,9 @@ func GetTransit(c *gin.Context) {
 	}
 
 	transit := gin.H{
-		"rise": utils.FormatDatetimeRFC3339(rs.Rise),
-		"set":  utils.FormatDatetimeRFC3339(rs.Set),
+		"maximum": utils.FormatDatetimeRFC3339(tr.Maximum),
+		"rise":    utils.FormatDatetimeRFC3339(tr.Rise),
+		"set":     utils.FormatDatetimeRFC3339(tr.Set),
 	}
 
 	c.JSON(http.StatusOK, gin.H{
