@@ -46,6 +46,8 @@ github.com/observerly/dusk v1.11.0 h1:Az46cS4/FHDFI4PQfRv1TGFT1YzhSP0pC0sszMgzGz
 github.com/observerly/dusk v1.11.0/go.mod h1:ABt8hslu9e+iax4vAigf4l+lC4JNUAE02GD0A87VKeU=
 github.com/observerly/dusk v1.12.0 h1:OXmuxoZ0JE5Sb/vZi0EkPpku8JdAfbuqWId3AY+mNp8=
 github.com/observerly/dusk v1.12.0/go.mod h1:ABt8hslu9e+iax4vAigf4l+lC4JNUAE02GD0A87VKeU=
+github.com/observerly/dusk v1.13.0 h1:1twi/ZbqQKqu1vLK/OqjiVxYgE6xs4Zc1ciiypqfRo4=
+github.com/observerly/dusk v1.13.0/go.mod h1:ABt8hslu9e+iax4vAigf4l+lC4JNUAE02GD0A87VKeU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
