@@ -169,8 +169,9 @@ func TestGetTransitRoutePosition(t *testing.T) {
 func TestGetTransitRouteTransit(t *testing.T) {
 	// Build our expected transit section of body
 	transit := gin.H{
-		"rise": "2021-05-14T08:35:25-10:00",
-		"set":  "2021-05-14T20:54:51-10:00",
+		"maximum": "2021-05-14T12:39:25-10:00",
+		"rise":    "2021-05-14T08:35:25-10:00",
+		"set":     "2021-05-14T20:54:51-10:00",
 	}
 
 	// Convert the JSON response:
@@ -193,8 +194,9 @@ func TestGetTransitRouteTransit(t *testing.T) {
 func TestGetTransitRouteTransitNotAboveHorizon(t *testing.T) {
 	// Build our expected transit section of body
 	transit := gin.H{
-		"rise": "",
-		"set":  "",
+		"maximum": "",
+		"rise":    "",
+		"set":     "",
 	}
 
 	// Convert the JSON response:
