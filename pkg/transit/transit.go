@@ -45,6 +45,8 @@ func GetTransit(c *gin.Context) {
 
 	tr, _ := dusk.GetObjectTransit(datetime, eq, latitude, longitude)
 
+	path, _ := dusk.GetObjectHorizontalCoordinatesForDay(datetime, eq, longitude, latitude)
+
 	airmass := dusk.GetRelativeAirMass(hz.Altitude)
 
 	refraction := dusk.GetAtmosphericRefraction(hz.Altitude)
@@ -79,6 +81,7 @@ func GetTransit(c *gin.Context) {
 		"maximum": utils.FormatDatetimeRFC3339(tr.Maximum),
 		"rise":    utils.FormatDatetimeRFC3339(tr.Rise),
 		"set":     utils.FormatDatetimeRFC3339(tr.Set),
+		"path":    path,
 	}
 
 	c.JSON(http.StatusOK, gin.H{
