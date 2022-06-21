@@ -8,6 +8,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/observerly/dusk/pkg/dusk"
+	"github.com/observerly/nocturnal/internal/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -30,7 +32,7 @@ func SetupTransitRouter() *gin.Engine {
 var r = SetupTransitRouter()
 
 // Setup the base response struct:
-var response map[string]map[string]string
+var response map[string]map[string]interface{}
 
 func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
@@ -170,11 +172,18 @@ func TestGetTransitRoutePosition(t *testing.T) {
 }
 
 func TestGetTransitRouteTransit(t *testing.T) {
+	datetime, _ := utils.ParseDatetimeRFC3339("2021-05-14T00:00:00.000Z")
+
+	eq := dusk.EquatorialCoordinate{RightAscension: 88.792958, Declination: 7.407064}
+
+	coordinates, _ := dusk.GetObjectHorizontalCoordinatesForDay(datetime, eq, -155.468094, 19.798484)
+
 	// Build our expected transit section of body
 	transit := gin.H{
 		"maximum": "2021-05-14T12:39:25-10:00",
 		"rise":    "2021-05-14T08:35:25-10:00",
 		"set":     "2021-05-14T20:54:51-10:00",
+		"path":    coordinates,
 	}
 
 	// Convert the JSON response:
@@ -222,9 +231,9 @@ func TestGetTransitRouteTransitAlt(t *testing.T) {
 func TestGetTransitRouteTransitNotAboveHorizon(t *testing.T) {
 	// Build our expected transit section of body
 	transit := gin.H{
-		"maximum": "",
-		"rise":    "",
-		"set":     "",
+		"maximum": nil,
+		"rise":    nil,
+		"set":     nil,
 	}
 
 	// Convert the JSON response:
