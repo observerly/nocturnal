@@ -30,7 +30,7 @@ func SetupSunRouter() *gin.Engine {
 var r = SetupSunRouter()
 
 // Setup the base response struct:
-var response map[string]map[string]string
+var response map[string]map[string]interface{}
 
 func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
@@ -51,8 +51,8 @@ func TestGetSunRouteObserver(t *testing.T) {
 	// Build our expected observer section of body
 	observer := gin.H{
 		"datetime":  "2021-05-14T00:00:00Z",
-		"latitude":  "19.798484",
-		"longitude": "-155.468094",
+		"latitude":  19.798484,
+		"longitude": -155.468094,
 	}
 
 	// Convert the JSON response:
@@ -80,10 +80,10 @@ func TestGetSunRouteObserver(t *testing.T) {
 func TestGetSunRoutePosition(t *testing.T) {
 	// Build our expected position section of body
 	position := gin.H{
-		"alt": "65.984873",
-		"az":  "88.483967",
-		"dec": "18.634152",
-		"ra":  "51.065497",
+		"alt": 65.98487307697896,
+		"az":  88.4839666699854,
+		"dec": 18.634152331055457,
+		"ra":  51.065497132296336,
 	}
 
 	// Convert the JSON response:
