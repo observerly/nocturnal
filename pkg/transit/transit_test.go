@@ -58,12 +58,12 @@ func TestTransitRouteStatusCode(t *testing.T) {
 func TestGetTransitRouteMoon(t *testing.T) {
 	// Build our expected observer section of body
 	phase := gin.H{
-		"age":          "1.222229",
-		"angle":        "156.463908",
-		"d":            "23.476597",
-		"fraction":     "0.041389",
-		"illumination": "4.159564",
-		"separation":   "20.180567",
+		"age":          1.2222287803073832,
+		"angle":        156.46390817398918,
+		"d":            23.47659745538946,
+		"fraction":     0.041388566239529356,
+		"illumination": 4.1595644017041575,
+		"separation":   20.18056657827112,
 	}
 
 	// Convert the JSON response:
@@ -107,8 +107,8 @@ func TestGetTransitRouteObserver(t *testing.T) {
 	// Build our expected observer section of body
 	observer := gin.H{
 		"datetime":  "2021-05-14T00:00:00Z",
-		"latitude":  "19.798484",
-		"longitude": "-155.468094",
+		"latitude":  19.798484,
+		"longitude": -155.468094,
 	}
 
 	// Convert the JSON response:
@@ -136,12 +136,12 @@ func TestGetTransitRouteObserver(t *testing.T) {
 func TestGetTransitRoutePosition(t *testing.T) {
 	// Build our expected position section of body
 	position := gin.H{
-		"R":   "0.005219",
-		"X":   "1.046558",
-		"alt": "72.800589",
-		"az":  "134.396672",
-		"dec": "7.407064",
-		"ra":  "88.792958",
+		"R":   0.005219,
+		"X":   1.046558,
+		"alt": 72.80058854788766,
+		"az":  134.39667229414232,
+		"dec": 7.407064,
+		"ra":  88.792958,
 	}
 
 	// Convert the JSON response:

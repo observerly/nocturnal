@@ -1,7 +1,6 @@
 package transit
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -54,27 +53,27 @@ func GetTransit(c *gin.Context) {
 	separation := dusk.GetAngularSeparation(dusk.Coordinate{Latitude: eq.Declination, Longitude: eq.RightAscension}, dusk.Coordinate{Latitude: meq.Declination, Longitude: meq.RightAscension})
 
 	phase := gin.H{
-		"age":          fmt.Sprintf("%f", mph.Days),
-		"angle":        fmt.Sprintf("%f", mph.Angle),
-		"d":            fmt.Sprintf("%f", mph.Age),
-		"fraction":     fmt.Sprintf("%f", mph.Fraction),
-		"illumination": fmt.Sprintf("%f", mph.Illumination),
-		"separation":   fmt.Sprintf("%f", separation),
+		"age":          mph.Days,
+		"angle":        mph.Angle,
+		"d":            mph.Age,
+		"fraction":     mph.Fraction,
+		"illumination": mph.Illumination,
+		"separation":   separation,
 	}
 
 	observer := gin.H{
 		"datetime":  datetime,
-		"longitude": fmt.Sprintf("%f", longitude),
-		"latitude":  fmt.Sprintf("%f", latitude),
+		"longitude": longitude,
+		"latitude":  latitude,
 	}
 
 	position := gin.H{
-		"alt": fmt.Sprintf("%f", hz.Altitude),
-		"az":  fmt.Sprintf("%f", hz.Azimuth),
-		"ra":  fmt.Sprintf("%f", rightAscension),
-		"dec": fmt.Sprintf("%f", declination),
-		"R":   fmt.Sprintf("%v", refraction),
-		"X":   fmt.Sprintf("%v", airmass),
+		"alt": hz.Altitude,
+		"az":  hz.Azimuth,
+		"ra":  rightAscension,
+		"dec": declination,
+		"R":   refraction,
+		"X":   airmass,
 	}
 
 	transit := gin.H{
