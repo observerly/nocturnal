@@ -1,7 +1,6 @@
 package sun
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -33,15 +32,15 @@ func GetSun(c *gin.Context) {
 
 	observer := gin.H{
 		"datetime":  datetime,
-		"longitude": fmt.Sprintf("%f", longitude),
-		"latitude":  fmt.Sprintf("%f", latitude),
+		"longitude": longitude,
+		"latitude":  latitude,
 	}
 
 	position := gin.H{
-		"alt": fmt.Sprintf("%f", hz.Altitude),
-		"az":  fmt.Sprintf("%f", hz.Azimuth),
-		"ra":  fmt.Sprintf("%f", eq.RightAscension),
-		"dec": fmt.Sprintf("%f", eq.Declination),
+		"alt": hz.Altitude,
+		"az":  hz.Azimuth,
+		"ra":  eq.RightAscension,
+		"dec": eq.Declination,
 	}
 
 	transit := gin.H{
