@@ -1,7 +1,6 @@
 package twilight
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -26,8 +25,8 @@ func GetTwilight(c *gin.Context) {
 
 	observer := gin.H{
 		"datetime":  datetime,
-		"longitude": fmt.Sprintf("%f", longitude),
-		"latitude":  fmt.Sprintf("%f", latitude),
+		"longitude": longitude,
+		"latitude":  latitude,
 	}
 
 	// Civil Twilight:

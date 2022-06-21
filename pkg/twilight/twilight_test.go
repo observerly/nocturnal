@@ -51,8 +51,8 @@ func TestGetTwilightRouteObserver(t *testing.T) {
 	// Build our expected observer section of body
 	observer := gin.H{
 		"datetime":  "2021-05-14T00:00:00Z",
-		"latitude":  "19.798484",
-		"longitude": "-155.468094",
+		"latitude":  19.798484,
+		"longitude": -155.468094,
 	}
 
 	// Convert the JSON response:
