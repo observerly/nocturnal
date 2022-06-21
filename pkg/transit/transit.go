@@ -73,8 +73,8 @@ func GetTransit(c *gin.Context) {
 		"az":  fmt.Sprintf("%f", hz.Azimuth),
 		"ra":  fmt.Sprintf("%f", rightAscension),
 		"dec": fmt.Sprintf("%f", declination),
-		"R":   fmt.Sprintf("%f", refraction),
-		"X":   fmt.Sprintf("%f", airmass),
+		"R":   fmt.Sprintf("%v", refraction),
+		"X":   fmt.Sprintf("%v", airmass),
 	}
 
 	transit := gin.H{

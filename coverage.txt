@@ -19,8 +19,8 @@ github.com/observerly/nocturnal/internal/router/setup.go:38.40,45.4 1 0
 github.com/observerly/nocturnal/internal/router/setup.go:58.41,65.3 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:68.40,77.3 1 1
 github.com/observerly/nocturnal/internal/router/setup.go:80.33,82.3 1 1
-github.com/observerly/nocturnal/pkg/twilight/twilight.go:14.34,75.2 14 1
 github.com/observerly/nocturnal/pkg/sun/sun.go:15.29,57.2 13 1
+github.com/observerly/nocturnal/pkg/twilight/twilight.go:14.34,75.2 14 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:15.30,61.22 16 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:67.2,67.21 1 1
 github.com/observerly/nocturnal/pkg/moon/moon.go:73.2,78.4 1 1
