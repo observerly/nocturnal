@@ -1,7 +1,6 @@
 package moon
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -37,23 +36,23 @@ func GetMoon(c *gin.Context) {
 
 	observer := gin.H{
 		"datetime":  datetime,
-		"longitude": fmt.Sprintf("%f", longitude),
-		"latitude":  fmt.Sprintf("%f", latitude),
+		"longitude": longitude,
+		"latitude":  latitude,
 	}
 
 	position := gin.H{
-		"alt": fmt.Sprintf("%f", hz.Altitude),
-		"az":  fmt.Sprintf("%f", hz.Azimuth),
-		"ra":  fmt.Sprintf("%f", eq.RightAscension),
-		"dec": fmt.Sprintf("%f", eq.Declination),
+		"alt": hz.Altitude,
+		"az":  hz.Azimuth,
+		"ra":  eq.RightAscension,
+		"dec": eq.Declination,
 	}
 
 	phase := gin.H{
-		"age":          fmt.Sprintf("%f", ph.Days),
-		"angle":        fmt.Sprintf("%f", ph.Angle),
-		"d":            fmt.Sprintf("%f", ph.Age),
-		"fraction":     fmt.Sprintf("%f", ph.Fraction),
-		"illumination": fmt.Sprintf("%f", ph.Illumination),
+		"age":          ph.Days,
+		"angle":        ph.Angle,
+		"d":            ph.Age,
+		"fraction":     ph.Fraction,
+		"illumination": ph.Illumination,
 	}
 
 	transit := gin.H{}

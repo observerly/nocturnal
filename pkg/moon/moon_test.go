@@ -30,7 +30,7 @@ func SetupMoonRouter() *gin.Engine {
 var r = SetupMoonRouter()
 
 // Setup the base response struct:
-var response map[string]map[string]string
+var response map[string]map[string]interface{}
 
 func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
@@ -51,8 +51,8 @@ func TestGetMoonRouteObserver(t *testing.T) {
 	// Build our expected observer section of body
 	observer := gin.H{
 		"datetime":  "2021-05-14T00:00:00Z",
-		"latitude":  "19.798484",
-		"longitude": "-155.468094",
+		"latitude":  19.798484,
+		"longitude": -155.468094,
 	}
 
 	// Convert the JSON response:
@@ -80,11 +80,11 @@ func TestGetMoonRouteObserver(t *testing.T) {
 func TestGetMoonRoutePhase(t *testing.T) {
 	// Build our expected phase section of body
 	phase := gin.H{
-		"age":          "1.222229",
-		"angle":        "156.463908",
-		"d":            "23.476597",
-		"fraction":     "0.041389",
-		"illumination": "4.159564",
+		"age":          1.2222287803073832,
+		"angle":        156.46390817398918,
+		"d":            23.47659745538946,
+		"fraction":     0.041388566239529356,
+		"illumination": 4.1595644017041575,
 	}
 
 	// Convert the JSON response:
@@ -122,10 +122,10 @@ func TestGetMoonRoutePhase(t *testing.T) {
 func TestGetMoonRoutePosition(t *testing.T) {
 	// Build our expected position section of body
 	position := gin.H{
-		"alt": "86.192506",
-		"az":  "3.475550",
-		"dec": "23.598793",
-		"ra":  "76.239624",
+		"alt": 86.19250552553092,
+		"az":  3.475549831585049,
+		"dec": 23.598793298487617,
+		"ra":  76.2396240985571,
 	}
 
 	// Convert the JSON response:
