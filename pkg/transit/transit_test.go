@@ -45,6 +45,9 @@ var w = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T00:00:00.0
 // Perform a GET request with that handler.
 var x = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=-77.407064")
 
+// Perform a GET request with that handler.
+var y = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T06:52:13.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=7.407064")
+
 func TestTransitRouteStatusCode(t *testing.T) {
 	// Assert we encoded correctly, the request gives a 200:
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -176,6 +179,31 @@ func TestGetTransitRouteTransit(t *testing.T) {
 
 	// Convert the JSON response:
 	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Grab the transit & whether or not it exists
+	rise, exists := response["transit"]["rise"]
+	assert.True(t, exists)
+
+	// Grab the transit & whether or not it exists
+	set, exists := response["transit"]["set"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, rise, transit["rise"])
+	assert.Equal(t, set, transit["set"])
+}
+
+func TestGetTransitRouteTransitAlt(t *testing.T) {
+	// Build our expected transit section of body
+	transit := gin.H{
+		"maximum": "2021-05-14T12:39:25-10:00",
+		"rise":    "2021-05-14T08:35:25-10:00",
+		"set":     "2021-05-14T20:54:51-10:00",
+	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(y.Body.Bytes(), &response)
 
 	// Grab the transit & whether or not it exists
 	rise, exists := response["transit"]["rise"]
