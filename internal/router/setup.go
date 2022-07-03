@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -16,6 +17,42 @@ func getAPIVersionFromEnv() string {
 		value = "v1"
 	}
 	return value
+}
+
+func CORSMiddleware(config cors.Config) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		origin := c.Request.Header.Get("Origin")
+
+		if config.AllowAllOrigins || config.AllowOrigins != nil {
+			for _, value := range config.AllowOrigins {
+				if value == origin {
+					c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
+				}
+			}
+		}
+
+		if config.AllowMethods != nil {
+			c.Writer.Header().Set("Access-Control-Allow-Methods", strings.Join(config.AllowMethods, ","))
+		}
+
+		if config.AllowHeaders != nil {
+			c.Writer.Header().Set("Access-Control-Allow-Headers", strings.Join(config.AllowHeaders, ","))
+		}
+
+		if config.ExposeHeaders != nil {
+			c.Writer.Header().Set("Access-Control-Expose-Headers", strings.Join(config.ExposeHeaders, ","))
+		}
+
+		if config.AllowCredentials {
+			c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		}
+
+		if config.MaxAge > 0 {
+			c.Writer.Header().Set("Access-Control-Max-Age", fmt.Sprintf("%d", config.MaxAge))
+		}
+
+		c.Next()
+	}
 }
 
 func SetupRouter() *gin.Engine {
@@ -46,24 +83,21 @@ func SetupRouter() *gin.Engine {
 		c.AbortWithStatus(http.StatusInternalServerError)
 	}))
 
-	if mode != "release" {
-		config := cors.Default()
-		r.Use(config)
-	} else {
-		config := cors.Config{
-			AllowOrigins: []string{
-				"https://observerly.com",
-				"https://app.observerly.com",
-				"http://localhost:3000",
-			},
-			AllowMethods:     []string{"GET", "OPTIONS"},
-			AllowHeaders:     []string{"Origin"},
-			ExposeHeaders:    []string{"Content-Length"},
-			AllowCredentials: true,
-			MaxAge:           24 * time.Hour,
-		}
-		r.Use(cors.New(config))
+	config := cors.Config{
+		AllowOrigins: []string{
+			"https://observerly.com",
+			"https://app.observerly.com",
+			"https://vega.observerly.com",
+			"http://localhost:3001",
+		},
+		AllowMethods:     []string{"GET", "OPTIONS"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"},
+		AllowCredentials: true,
+		MaxAge:           24 * time.Hour,
 	}
+
+	r.Use(CORSMiddleware(config))
 
 	r.GET("/version", func(c *gin.Context) {
 		c.JSON(
