@@ -52,6 +52,12 @@ func GetTransit(c *gin.Context) {
 
 	separation := dusk.GetAngularSeparation(dusk.Coordinate{Latitude: eq.Declination, Longitude: eq.RightAscension}, dusk.Coordinate{Latitude: meq.Declination, Longitude: meq.RightAscension})
 
+	observer := gin.H{
+		"datetime":  datetime,
+		"longitude": longitude,
+		"latitude":  latitude,
+	}
+
 	phase := gin.H{
 		"age":          mph.Days,
 		"angle":        mph.Angle,
@@ -59,12 +65,6 @@ func GetTransit(c *gin.Context) {
 		"fraction":     mph.Fraction,
 		"illumination": mph.Illumination,
 		"separation":   separation,
-	}
-
-	observer := gin.H{
-		"datetime":  datetime,
-		"longitude": longitude,
-		"latitude":  latitude,
 	}
 
 	position := gin.H{
@@ -76,17 +76,17 @@ func GetTransit(c *gin.Context) {
 		"X":   airmass,
 	}
 
-	transit := gin.H{
+	properties := gin.H{
 		"maximum": utils.FormatDatetimeRFC3339(tr.Maximum),
 		"rise":    utils.FormatDatetimeRFC3339(tr.Rise),
 		"set":     utils.FormatDatetimeRFC3339(tr.Set),
-		"path":    path,
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"phase":    phase,
-		"observer": observer,
-		"position": position,
-		"transit":  transit,
+		"phase":      phase,
+		"observer":   observer,
+		"position":   position,
+		"properties": properties,
+		"path":       path,
 	})
 }
