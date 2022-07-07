@@ -136,3 +136,27 @@ func TestGetSunRouteTransit(t *testing.T) {
 	assert.Equal(t, rise, transit["rise"])
 	assert.Equal(t, set, transit["set"])
 }
+
+func TestGetSunRouteTomorrow(t *testing.T) {
+	// Build our expected transit section of body
+	tomorrow := gin.H{
+		"rise": "2021-05-15T05:49:30-10:00",
+		"set":  "2021-05-15T18:47:08-10:00",
+	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Grab the tomorrow & whether or not it exists
+	rise, exists := response["tomorrow"]["rise"]
+	assert.True(t, exists)
+
+	// Grab the tomorrow & whether or not it exists
+	set, exists := response["tomorrow"]["set"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, rise, tomorrow["rise"])
+	assert.Equal(t, set, tomorrow["set"])
+}

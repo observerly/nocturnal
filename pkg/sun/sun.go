@@ -28,7 +28,9 @@ func GetSun(c *gin.Context) {
 
 	hz := dusk.ConvertEquatorialCoordinateToHorizontal(datetime, longitude, latitude, eq)
 
-	rs, _ := dusk.GetSunriseSunsetTimes(datetime, 0, longitude, latitude, 0)
+	rstoday, _ := dusk.GetSunriseSunsetTimes(datetime, 0, longitude, latitude, 0)
+
+	rstomorrow, _ := dusk.GetSunriseSunsetTimes(datetime.Add(time.Hour*24), 0, longitude, latitude, 0)
 
 	observer := gin.H{
 		"datetime":  datetime,
@@ -44,13 +46,19 @@ func GetSun(c *gin.Context) {
 	}
 
 	transit := gin.H{
-		"rise": rs.Rise.Format(time.RFC3339),
-		"set":  rs.Set.Format(time.RFC3339),
+		"rise": rstoday.Rise.Format(time.RFC3339),
+		"set":  rstoday.Set.Format(time.RFC3339),
+	}
+
+	tomorrow := gin.H{
+		"rise": rstomorrow.Rise.Format(time.RFC3339),
+		"set":  rstomorrow.Set.Format(time.RFC3339),
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"observer": observer,
 		"position": position,
 		"transit":  transit,
+		"tomorrow": tomorrow,
 	})
 }
