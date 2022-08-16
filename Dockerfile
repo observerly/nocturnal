@@ -33,3 +33,6 @@ ENV TZ=Europe/London
 WORKDIR /app
 
 COPY --from=build /go/src/nocturnal/app .
+
+# Exposes port 8983 because our program listens on that port
+EXPOSE 8103
