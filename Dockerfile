@@ -2,7 +2,7 @@
 FROM golang:latest AS build
 
 # `boilerplate` should be replaced with your project name
-WORKDIR /go/src/nocturnal
+WORKDIR /app
 
 # Copy all the Code and stuff to compile everything
 COPY . .
@@ -32,7 +32,12 @@ ENV TZ=Europe/London
 
 WORKDIR /app
 
-COPY --from=build /go/src/nocturnal/app .
+COPY --from=build /app .
+
+# Set the PORT environment variable:
+ENV PORT 8103
 
 # Exposes port 8983 because our program listens on that port
 EXPOSE 8103
+
+ENTRYPOINT ["/app/start.sh"]
