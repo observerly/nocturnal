@@ -21,16 +21,18 @@ func main() {
 
 	r := router.SetupRouter()
 
-	// Moon Properties API
+	// Moon (Lunar) Properties API
 	r.GET("/api/v1/moon", moon.GetMoon)
+	r.GET("/api/v1/lunar", moon.GetMoon)
 
-	// Sun Properties API
+	// Sun (Solar) Properties API
 	r.GET("/api/v1/sun", sun.GetSun)
+	r.GET("/api/v1/solar", sun.GetSun)
 
 	// Transit Properties API
 	r.GET("/api/v1/transit", transit.GetTransit)
 
-	// Twilight Properties API
+	// Twilight (Crepusculum) Properties API
 	r.GET("/api/v1/twilight", twilight.GetTwilight)
 
 	// Listen on port
