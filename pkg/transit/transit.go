@@ -12,7 +12,7 @@ import (
 
 // GET Transit
 func GetTransit(c *gin.Context) {
-	d := c.DefaultQuery("datetime", time.Now().String())
+	d := c.DefaultQuery("datetime", time.Now().Format(time.RFC3339))
 
 	ra := c.DefaultQuery("ra", strconv.Itoa(0))
 
