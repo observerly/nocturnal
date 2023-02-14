@@ -21,7 +21,7 @@ func SetupSunRouter() *gin.Engine {
 	// Create gin router
 	r := gin.Default()
 
-	r.GET("/api/v1/sun", GetSun)
+	r.GET("/api/v1/sun", GetSunDeprecatedV1)
 
 	return r
 }

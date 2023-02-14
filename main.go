@@ -30,8 +30,12 @@ func main() {
 	r.GET("/api/v2/lunar", moon.GetMoon)
 
 	// Sun (Solar) Properties API
-	r.GET("/api/v1/sun", sun.GetSun)
-	r.GET("/api/v1/solar", sun.GetSun)
+	r.GET("/api/v1/sun", sun.GetSunDeprecatedV1)
+	r.GET("/api/v1/solar", sun.GetSunDeprecatedV1)
+
+	// Sun (Solar) Properties API version 2 (^14.02.2023):
+	r.GET("/api/v2/sun", sun.GetSun)
+	r.GET("/api/v2/solar", sun.GetSun)
 
 	// Transit Properties API
 	r.GET("/api/v1/transit", transit.GetTransit)
