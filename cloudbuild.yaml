@@ -20,9 +20,7 @@ steps:
         --region=$_REGION_NAME \
         --platform managed \
         --allow-unauthenticated \
-        --port=8103 \
         --set-env-vars "API_VERSION_LATEST=v1" \
-        --set-env-vars "PORT=8103"
         --set-env-vars "GIN_MODE=release"
 
 substitutions:
