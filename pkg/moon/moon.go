@@ -12,7 +12,7 @@ import (
 
 // GET /moon
 func GetMoon(c *gin.Context) {
-	d := c.DefaultQuery("datetime", time.Now().String())
+	d := c.DefaultQuery("datetime", time.Now().Format(time.RFC3339))
 
 	lon := c.DefaultQuery("longitude", strconv.Itoa(0))
 
