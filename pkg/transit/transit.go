@@ -14,13 +14,13 @@ import (
 func GetTransit(c *gin.Context) {
 	d := c.DefaultQuery("datetime", time.Now().String())
 
-	ra := c.DefaultQuery("ra", strconv.Itoa(8))
+	ra := c.DefaultQuery("ra", strconv.Itoa(0))
 
-	dec := c.DefaultQuery("dec", strconv.Itoa(8))
+	dec := c.DefaultQuery("dec", strconv.Itoa(0))
 
-	lon := c.DefaultQuery("longitude", strconv.Itoa(8))
+	lon := c.DefaultQuery("longitude", strconv.Itoa(0))
 
-	lat := c.DefaultQuery("latitude", strconv.Itoa(8))
+	lat := c.DefaultQuery("latitude", strconv.Itoa(0))
 
 	datetime, _ := utils.ParseDatetimeRFC3339(d)
 
