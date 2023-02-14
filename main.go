@@ -38,7 +38,10 @@ func main() {
 	r.GET("/api/v2/solar", sun.GetSun)
 
 	// Transit Properties API
-	r.GET("/api/v1/transit", transit.GetTransit)
+	r.GET("/api/v1/transit", transit.GetTransitDeprecatedV1)
+
+	// Transit Properties API version 2 (^14.02.2023):
+	r.GET("/api/v2/transit", transit.GetTransit)
 
 	// Twilight (Crepusculum) Properties API
 	r.GET("/api/v1/twilight", twilight.GetTwilight)

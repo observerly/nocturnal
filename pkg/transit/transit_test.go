@@ -2,7 +2,6 @@ package transit
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -11,52 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
-
-type Observer struct {
-	Datetime  string  `json:"datetime"`
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-}
-
-type Position struct {
-	R   float64 `json:"R"`
-	X   float64 `json:"X"`
-	Alt float64 `json:"alt"`
-	Az  float64 `json:"az"`
-	Dec float64 `json:"dec"`
-	Ra  float64 `json:"ra"`
-}
-
-type Properties struct {
-	Maximum *string `json:"maximum"`
-	Rise    *string `json:"rise"`
-	Set     *string `json:"set"`
-}
-
-type Phase struct {
-	Age          float64 `json:"age"`
-	Angle        float64 `json:"angle"`
-	D            float64 `json:"d"`
-	Fraction     float64 `json:"fraction"`
-	Illumination float64 `json:"illumination"`
-	Separation   float64 `json:"separation"`
-}
-
-type Path struct {
-	Datetime string  `json:"datetime"`
-	Altitude float64 `json:"altitude"`
-	Azimuth  float64 `json:"azimuth"`
-	IsRise   bool    `json:"isRise"`
-	IsSet    bool    `json:"isSet"`
-}
-
-type Response struct {
-	Observer   Observer   `json:"observer"`
-	Path       []Path     `json:"path"`
-	Phase      Phase      `json:"phase"`
-	Position   Position   `json:"position"`
-	Properties Properties `json:"properties"`
-}
 
 func SetupTransitRouter() *gin.Engine {
 	mode := os.Getenv("GIN_MODE")
@@ -68,7 +21,7 @@ func SetupTransitRouter() *gin.Engine {
 	// Create gin router
 	r := gin.Default()
 
-	r.GET("/api/v1/transit", GetTransit)
+	r.GET("/api/v2/transit", GetTransit)
 
 	return r
 }
@@ -77,7 +30,13 @@ func SetupTransitRouter() *gin.Engine {
 var r = SetupTransitRouter()
 
 // Setup the base response struct:
-var response Response
+var response struct {
+	Observer map[string]interface{} `json:"observer"`
+	Rise     map[string]interface{} `json:"rise"`
+	Set      map[string]interface{} `json:"set"`
+	Maximum  map[string]interface{} `json:"maximum"`
+	Path     []interface{}          `json:"path"`
+}
 
 func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
@@ -87,59 +46,17 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 }
 
 // Perform a GET request with that handler.
-var w = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=7.407064")
+var w = performRequest(r, "GET", "/api/v2/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=7.407064")
 
 // Perform a GET request with that handler.
-var x = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=45.798484&ra=88.792958&dec=-77.407064")
+var x = performRequest(r, "GET", "/api/v2/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=45.798484&ra=88.792958&dec=-77.407064")
 
 // Perform a GET request with that handler.
-var y = performRequest(r, "GET", "/api/v1/transit?datetime=2021-05-14T06:52:13.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=7.407064")
+var y = performRequest(r, "GET", "/api/v2/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=77.407064")
 
 func TestTransitRouteStatusCode(t *testing.T) {
 	// Assert we encoded correctly, the request gives a 200:
 	assert.Equal(t, http.StatusOK, w.Code)
-}
-
-func TestGetTransitRouteMoon(t *testing.T) {
-	// Build our expected observer section of body
-	phase := gin.H{
-		"age":          1.2222287803073832,
-		"angle":        156.46390817398918,
-		"d":            23.47659745538946,
-		"fraction":     0.041388566239529356,
-		"illumination": 4.1595644017041575,
-		"separation":   20.18056657827112,
-	}
-
-	// Convert the JSON response:
-	err := json.Unmarshal(w.Body.Bytes(), &response)
-
-	// Grab the phase & whether or not it exists
-	age := response.Phase.Age
-
-	// Grab the phase & whether or not it exists
-	angle := response.Phase.Angle
-
-	// Grab the phase & whether or not it exists
-	d := response.Phase.D
-
-	// Grab the phase & whether or not it exists
-	fraction := response.Phase.Fraction
-
-	// Grab the phase & whether or not it exists
-	illumination := response.Phase.Illumination
-
-	// Grab the phase & whether or not it exists
-	separation := response.Phase.Separation
-
-	// Assert on the correctness of the response:
-	assert.Nil(t, err)
-	assert.Equal(t, age, phase["age"])
-	assert.Equal(t, angle, phase["angle"])
-	assert.Equal(t, d, phase["d"])
-	assert.Equal(t, fraction, phase["fraction"])
-	assert.Equal(t, illumination, phase["illumination"])
-	assert.Equal(t, separation, phase["separation"])
 }
 
 func TestGetTransitRouteObserver(t *testing.T) {
@@ -154,13 +71,16 @@ func TestGetTransitRouteObserver(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 
 	// Grab the observer & whether or not it exists
-	datetime := response.Observer.Datetime
+	datetime, exists := response.Observer["datetime"]
+	assert.True(t, exists)
 
 	// Grab the observer & whether or not it exists
-	latitude := response.Observer.Latitude
+	latitude, exists := response.Observer["latitude"]
+	assert.True(t, exists)
 
 	// Grab the observer & whether or not it exists
-	longitude := response.Observer.Longitude
+	longitude, exists := response.Observer["longitude"]
+	assert.True(t, exists)
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
@@ -169,106 +89,285 @@ func TestGetTransitRouteObserver(t *testing.T) {
 	assert.Equal(t, longitude, observer["longitude"])
 }
 
-func TestGetTransitRoutePosition(t *testing.T) {
-	// Build our expected position section of body
-	position := gin.H{
-		"R":   0.005219234547163293,
-		"X":   1.0465576817848306,
-		"alt": 72.80058854788766,
-		"az":  134.39667229414232,
-		"dec": 7.407064,
-		"ra":  88.792958,
+func TestGetTransitRouteRise(t *testing.T) {
+	// Build our expected rise section of body
+	rise := gin.H{
+		"LCT":          "2021-05-14T08:35:25-10:00",
+		"R":            0.31247646372444293,
+		"UTC":          "2021-05-14T18:35:25Z",
+		"X":            22.21853513271382,
+		"age":          2.185508160545753,
+		"alt":          1.5727806816314758,
+		"angle":        148.34943756923096,
+		"az":           82.69308817455995,
+		"dec":          7.407064,
+		"fraction":     0.07400827956860168,
+		"illumination": 7.436790249940451,
+		"ra":           88.792958,
+		"separation":   17.489602973521922,
 	}
 
 	// Convert the JSON response:
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 
-	// Grab the position & whether or not it exists
-	alt := response.Position.Alt
+	// Obtain the Local Civil Time rise of the rise and test whether or not it exists:
+	LCT, exists := response.Rise["LCT"]
+	assert.True(t, exists)
 
-	// Grab the position & whether or not it exists
-	az := response.Position.Az
+	// Obtain the refraction of the rise and test whether or not it exists:
+	R, exists := response.Rise["R"]
+	assert.True(t, exists)
 
-	// Grab the position & whether or not it exists
-	ra := response.Position.Ra
+	// Obtain the Universal Time rise of the rise and test whether or not it exists:
+	UTC, exists := response.Rise["UTC"]
+	assert.True(t, exists)
 
-	// Grab the position & whether or not it exists
-	dec := response.Position.Dec
+	// Obtain the airmass (X) of the rise and test whether or not it exists:
+	X, exists := response.Rise["X"]
+	assert.True(t, exists)
+
+	// Obtain the age at the the rise and test whether or not it exists:
+	age, exists := response.Rise["age"]
+	assert.True(t, exists)
+
+	// Obtain the altitude of the rise and test whether or not it exists:
+	alt, exists := response.Rise["alt"]
+	assert.True(t, exists)
+
+	// Obtain the angle of the rise and test whether or not it exists:
+	angle, exists := response.Rise["angle"]
+	assert.True(t, exists)
+
+	// Obtain the azimuth of the rise and test whether or not it exists:
+	az, exists := response.Rise["az"]
+	assert.True(t, exists)
+
+	// Obtain the declination of the rise and test whether or not it exists:
+	dec, exists := response.Rise["dec"]
+	assert.True(t, exists)
+
+	// Obtain the fraction of the rise and test whether or not it exists:
+	fraction, exists := response.Rise["fraction"]
+	assert.True(t, exists)
+
+	// Obtain the illumination of the rise and test whether or not it exists:
+	illumination, exists := response.Rise["illumination"]
+	assert.True(t, exists)
+
+	// Obtain the right ascension of the rise and test whether or not it exists:
+	ra, exists := response.Rise["ra"]
+	assert.True(t, exists)
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, alt, position["alt"])
-	assert.Equal(t, az, position["az"])
-	assert.Equal(t, ra, position["ra"])
-	assert.Equal(t, dec, position["dec"])
+	assert.Equal(t, R, rise["R"])
+	assert.Equal(t, LCT, rise["LCT"])
+	assert.Equal(t, UTC, rise["UTC"])
+	assert.Equal(t, X, rise["X"])
+	assert.Equal(t, age, rise["age"])
+	assert.Equal(t, alt, rise["alt"])
+	assert.Equal(t, angle, rise["angle"])
+	assert.Equal(t, az, rise["az"])
+	assert.Equal(t, dec, rise["dec"])
+	assert.Equal(t, fraction, rise["fraction"])
+	assert.Equal(t, illumination, rise["illumination"])
+	assert.Equal(t, ra, rise["ra"])
 }
 
-func TestGetTransitRouteProperties(t *testing.T) {
-	// Build our expected properties section of transit
-	properties := gin.H{
-		"maximum": "2021-05-14T12:39:25-10:00",
-		"rise":    "2021-05-14T08:35:25-10:00",
-		"set":     "2021-05-14T20:54:51-10:00",
+func TestGetTransitRouteMaximum(t *testing.T) {
+	// Build our expected maximum section of body
+	maximum := gin.H{
+		"LCT":          "2021-05-14T12:39:25-10:00",
+		"R":            0.010331651302290006,
+		"UTC":          "2021-05-14T22:39:25Z",
+		"X":            1.1715008193883227,
+		"age":          2.467644467039966,
+		"alt":          58.54930192457176,
+		"angle":        146.31204868601841,
+		"az":           109.02539763910731,
+		"dec":          7.407064,
+		"fraction":     0.08356231511256518,
+		"illumination": 8.396460922585103,
+		"ra":           88.792958,
+		"separation":   17.52318422105279,
 	}
 
 	// Convert the JSON response:
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 
-	// Grab the properties & whether or not it exists
-	rise := *response.Properties.Rise
+	// Obtain the Local Civil Time maximum of the maximum and test whether or not it exists:
+	LCT, exists := response.Maximum["LCT"]
+	assert.True(t, exists)
 
-	// Grab the properties & whether or not it exists
-	set := *response.Properties.Set
+	// Obtain the refraction of the maximum and test whether or not it exists:
+	R, exists := response.Maximum["R"]
+	assert.True(t, exists)
+
+	// Obtain the Universal Time maximum of the maximum and test whether or not it exists:
+	UTC, exists := response.Maximum["UTC"]
+	assert.True(t, exists)
+
+	// Obtain the airmass (X) of the maximum and test whether or not it exists:
+	X, exists := response.Maximum["X"]
+	assert.True(t, exists)
+
+	// Obtain the age at the the maximum and test whether or not it exists:
+	age, exists := response.Maximum["age"]
+	assert.True(t, exists)
+
+	// Obtain the altitude of the maximum and test whether or not it exists:
+	alt, exists := response.Maximum["alt"]
+	assert.True(t, exists)
+
+	// Obtain the angle of the maximum and test whether or not it exists:
+	angle, exists := response.Maximum["angle"]
+	assert.True(t, exists)
+
+	// Obtain the azimuth of the maximum and test whether or not it exists:
+	az, exists := response.Maximum["az"]
+	assert.True(t, exists)
+
+	// Obtain the declination of the maximum and test whether or not it exists:
+	dec, exists := response.Maximum["dec"]
+	assert.True(t, exists)
+
+	// Obtain the fraction of the maximum and test whether or not it exists:
+	fraction, exists := response.Maximum["fraction"]
+	assert.True(t, exists)
+
+	// Obtain the illumination of the maximum and test whether or not it exists:
+	illumination, exists := response.Maximum["illumination"]
+	assert.True(t, exists)
+
+	// Obtain the right ascension of the maximum and test whether or not it exists:
+	ra, exists := response.Maximum["ra"]
+	assert.True(t, exists)
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, rise, properties["rise"])
-	assert.Equal(t, set, properties["set"])
+	assert.Equal(t, R, maximum["R"])
+	assert.Equal(t, LCT, maximum["LCT"])
+	assert.Equal(t, UTC, maximum["UTC"])
+	assert.Equal(t, X, maximum["X"])
+	assert.Equal(t, age, maximum["age"])
+	assert.Equal(t, alt, maximum["alt"])
+	assert.Equal(t, angle, maximum["angle"])
+	assert.Equal(t, az, maximum["az"])
+	assert.Equal(t, dec, maximum["dec"])
+	assert.Equal(t, fraction, maximum["fraction"])
+	assert.Equal(t, illumination, maximum["illumination"])
+	assert.Equal(t, ra, maximum["ra"])
 }
 
-func TestGetTransitRoutePropertiesAlt(t *testing.T) {
-	// Build our expected transit section of body
-	properties := gin.H{
-		"maximum": "2021-05-14T12:39:25-10:00",
-		"rise":    "2021-05-14T08:35:25-10:00",
-		"set":     "2021-05-14T20:54:51-10:00",
+func TestGetTransitRouteSet(t *testing.T) {
+	// Build our expected set section of body
+	set := gin.H{
+		"LCT":          "2021-05-14T20:54:51-10:00",
+		"R":            nil,
+		"UTC":          "2021-05-15T06:54:51Z",
+		"X":            nil,
+		"age":          3.0891483187381277,
+		"alt":          -1.8540744329511798,
+		"angle":        142.16654610640515,
+		"az":           81.44596647698675,
+		"dec":          7.407064,
+		"fraction":     0.10460841854965064,
+		"illumination": 10.51014934125243,
+		"ra":           88.792958,
+		"separation":   18.281831615702153,
 	}
+
+	// Convert the JSON response:
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+
+	// Obtain the Local Civil Time set of the set and test whether or not it exists:
+	LCT, exists := response.Set["LCT"]
+	assert.True(t, exists)
+
+	// Obtain the refraction of the set and test whether or not it exists:
+	R, exists := response.Set["R"]
+	assert.True(t, exists)
+
+	// Obtain the Universal Time set of the set and test whether or not it exists:
+	UTC, exists := response.Set["UTC"]
+	assert.True(t, exists)
+
+	// Obtain the airmass (X) of the set and test whether or not it exists:
+	X, exists := response.Set["X"]
+	assert.True(t, exists)
+
+	// Obtain the age at the the set and test whether or not it exists:
+	age, exists := response.Set["age"]
+	assert.True(t, exists)
+
+	// Obtain the altitude of the set and test whether or not it exists:
+	alt, exists := response.Set["alt"]
+	assert.True(t, exists)
+
+	// Obtain the angle of the set and test whether or not it exists:
+	angle, exists := response.Set["angle"]
+	assert.True(t, exists)
+
+	// Obtain the azimuth of the set and test whether or not it exists:
+	az, exists := response.Set["az"]
+	assert.True(t, exists)
+
+	// Obtain the declination of the set and test whether or not it exists:
+	dec, exists := response.Set["dec"]
+	assert.True(t, exists)
+
+	// Obtain the fraction of the set and test whether or not it exists:
+	fraction, exists := response.Set["fraction"]
+	assert.True(t, exists)
+
+	// Obtain the illumination of the set and test whether or not it exists:
+	illumination, exists := response.Set["illumination"]
+	assert.True(t, exists)
+
+	// Obtain the right ascension of the set and test whether or not it exists:
+	ra, exists := response.Set["ra"]
+	assert.True(t, exists)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+	assert.Equal(t, R, set["R"])
+	assert.Equal(t, LCT, set["LCT"])
+	assert.Equal(t, UTC, set["UTC"])
+	assert.Equal(t, X, set["X"])
+	assert.Equal(t, age, set["age"])
+	assert.Equal(t, alt, set["alt"])
+	assert.Equal(t, angle, set["angle"])
+	assert.Equal(t, az, set["az"])
+	assert.Equal(t, dec, set["dec"])
+	assert.Equal(t, fraction, set["fraction"])
+	assert.Equal(t, illumination, set["illumination"])
+	assert.Equal(t, ra, set["ra"])
+}
+
+func TestGetTransitRouteAlwaysBelowHorizon(t *testing.T) {
+	// Convert the JSON response:
+	err := json.Unmarshal(x.Body.Bytes(), &response)
+
+	// Assert on the correctness of the response:
+	assert.Nil(t, err)
+
+	// Assert that the response is empty:
+	assert.Equal(t, 0, len(response.Set))
+	assert.Equal(t, 0, len(response.Maximum))
+	assert.Equal(t, 0, len(response.Rise))
+}
+
+func TestGetTransitRouteAlwaysAboveHorizon(t *testing.T) {
+	maximum := gin.H{}
 
 	// Convert the JSON response:
 	err := json.Unmarshal(y.Body.Bytes(), &response)
 
-	// Grab the properties & whether or not it exists
-	rise := *response.Properties.Rise
-
-	fmt.Println(rise)
-
-	// Grab the properties & whether or not it exists
-	set := *response.Properties.Set
-
-	fmt.Println(set)
-
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, rise, properties["rise"])
-	assert.Equal(t, set, properties["set"])
-}
 
-func TestGetTransitRoutePropertiesNotAboveHorizon(t *testing.T) {
-	// Convert the JSON response:
-	err := json.Unmarshal(x.Body.Bytes(), &response)
-
-	// Grab the properties & whether or not it exists
-	maximum := response.Properties.Maximum
-
-	// Grab the properties & whether or not it exists
-	rise := response.Properties.Rise
-
-	// Grab the properties & whether or not it exists
-	set := response.Properties.Set
-
-	// Assert on the correctness of the response:
-	assert.Nil(t, err)
-	assert.Nil(t, maximum)
-	assert.Nil(t, rise)
-	assert.Nil(t, set)
+	// Assert that the response is empty:
+	assert.Equal(t, 0, len(response.Set))
+	assert.Equal(t, maximum, response.Maximum)
+	assert.Equal(t, 0, len(response.Rise))
 }
