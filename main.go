@@ -21,9 +21,13 @@ func main() {
 
 	r := router.SetupRouter()
 
-	// Moon (Lunar) Properties API
-	r.GET("/api/v1/moon", moon.GetMoon)
-	r.GET("/api/v1/lunar", moon.GetMoon)
+	// Moon (Lunar) Properties API version 1 (deprecated):
+	r.GET("/api/v1/moon", moon.GetMoonDeprecatedV1)
+	r.GET("/api/v1/lunar", moon.GetMoonDeprecatedV1)
+
+	// Moon (Lunar) Properties API version 2 (^14.02.2023):
+	r.GET("/api/v2/moon", moon.GetMoon)
+	r.GET("/api/v2/lunar", moon.GetMoon)
 
 	// Sun (Solar) Properties API
 	r.GET("/api/v1/sun", sun.GetSun)

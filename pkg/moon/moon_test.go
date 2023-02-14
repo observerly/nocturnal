@@ -21,7 +21,7 @@ func SetupMoonRouter() *gin.Engine {
 	// Create gin router
 	r := gin.Default()
 
-	r.GET("/api/v1/moon", GetMoon)
+	r.GET("/api/v1/moon", GetMoonDeprecatedV1)
 
 	return r
 }
