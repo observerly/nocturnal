@@ -7,15 +7,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/observerly/dusk/pkg/dusk"
+	"github.com/observerly/nocturnal/internal/query"
 	"github.com/observerly/nocturnal/internal/utils"
 )
 
 func GetTwilight(c *gin.Context) {
-	d := c.DefaultQuery("datetime", time.Now().Format(time.RFC3339))
-
-	lon := c.DefaultQuery("longitude", strconv.Itoa(0))
-
-	lat := c.DefaultQuery("latitude", strconv.Itoa(0))
+	d, lon, lat := query.GetDefaultObserverParams(c)
 
 	datetime, _ := utils.ParseDatetimeRFC3339(d)
 

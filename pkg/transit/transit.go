@@ -3,24 +3,20 @@ package transit
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/observerly/dusk/pkg/dusk"
+	"github.com/observerly/nocturnal/internal/query"
 	"github.com/observerly/nocturnal/internal/utils"
 )
 
 // GET Transit
 func GetTransit(c *gin.Context) {
-	d := c.DefaultQuery("datetime", time.Now().Format(time.RFC3339))
+	d, lon, lat := query.GetDefaultObserverParams(c)
 
 	ra := c.DefaultQuery("ra", strconv.Itoa(0))
 
 	dec := c.DefaultQuery("dec", strconv.Itoa(0))
-
-	lon := c.DefaultQuery("longitude", strconv.Itoa(0))
-
-	lat := c.DefaultQuery("latitude", strconv.Itoa(0))
 
 	datetime, _ := utils.ParseDatetimeRFC3339(d)
 
