@@ -6,6 +6,10 @@ Nocturnal 🌑 is observerly's Gin Gonic API for Lunar and Solar advanced schedu
 
 ### Project Requirements
 
+We welcome any and all contributions or raised issues to this repository.
+
+To contribute to this project, you will need the following tools installed on your local machine:
+
 - [Docker](https://www.docker.com/).
 - [Docker Compose](https://docs.docker.com/compose/install/).
 - [Go](https://go.dev/dl/) version 1.17+ (or later).
@@ -24,10 +28,10 @@ The Nocturnal development stack can then be started with:
 $ docker compose -f local.yml up
 ```
 
-or simply by utilising the following go command:
+or simply by utilising the following combined command:
 
 ```console
-go run main.go
+docker compose -f local.yml up --build
 ```
 
 ### Testing
