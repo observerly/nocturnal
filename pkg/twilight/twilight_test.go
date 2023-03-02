@@ -21,7 +21,7 @@ func SetupTwilightRouter() *gin.Engine {
 	// Create gin router
 	r := gin.Default()
 
-	r.GET("/api/v1/twilight", GetTwilight)
+	r.GET("/api/v2/twilight", GetTwilight)
 
 	return r
 }
@@ -40,7 +40,7 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 }
 
 // Perform a GET request with that handler.
-var w = performRequest(r, "GET", "/api/v1/twilight?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484")
+var w = performRequest(r, "GET", "/api/v2/twilight?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484")
 
 func TestTwilightRouteStatusCode(t *testing.T) {
 	// Assert we encoded correctly, the request gives a 200:

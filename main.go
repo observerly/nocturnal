@@ -40,11 +40,14 @@ func main() {
 	// Transit Properties API
 	r.GET("/api/v1/transit", transit.GetTransitDeprecatedV1)
 
-	// Transit Properties API version 2 (^14.02.2023):
+	// Transit Properties API version 2 (^02.03.2023):
 	r.GET("/api/v2/transit", transit.GetTransit)
 
 	// Twilight (Crepusculum) Properties API
 	r.GET("/api/v1/twilight", twilight.GetTwilight)
+
+	// Twilight (Crepusculum) Properties API version 2 (^02.03.2023):
+	r.GET("/api/v2/twilight", twilight.GetTwilight)
 
 	// Listen on port
 	log.Fatal(r.Run(*port))
