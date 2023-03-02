@@ -39,7 +39,7 @@ func TestNoRoute(t *testing.T) {
 func TestVersionRoute(t *testing.T) {
 	// Build our expected body
 	body := gin.H{
-		"latest": "/api/v1",
+		"latest": "/api/v2",
 	}
 
 	// Perform a GET request with that handler.
@@ -63,13 +63,13 @@ func TestVersionRoute(t *testing.T) {
 func TestAPIBaseRoute(t *testing.T) {
 	// Build our expected body
 	body := gin.H{
-		"description": "Nocturnal 🌑 is observerly's Gin Gonic API for Lunar and Solar advanced scheduling, that utilises Dusk.",
-		"endpoint":    "/api/v1",
+		"description": "Nocturnal 🌑 is observerly's Gin Gonic API for Lunar, Solar and astronomical advanced scheduling, that utilises Dusk.",
+		"endpoint":    "/api/v2",
 		"name":        "Nocturnal API by observerly",
 	}
 
 	// Perform a GET request with that handler.
-	w := performRequest(r, "GET", "/api/v1")
+	w := performRequest(r, "GET", "/api/v2")
 
 	// Assert we encoded correctly, the request gives a 200:
 	assert.Equal(t, http.StatusOK, w.Code)
