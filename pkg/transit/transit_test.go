@@ -353,21 +353,90 @@ func TestGetTransitRouteAlwaysBelowHorizon(t *testing.T) {
 
 	// Assert that the response is empty:
 	assert.Equal(t, 0, len(response.Set))
-	assert.Equal(t, 0, len(response.Maximum))
+	assert.Equal(t, 13, len(response.Maximum))
 	assert.Equal(t, 0, len(response.Rise))
 }
 
 func TestGetTransitRouteAlwaysAboveHorizon(t *testing.T) {
-	maximum := gin.H{}
+	maximum := gin.H{
+		"LCT":          "2021-05-14T00:49:00Z",
+		"R":            0.026514740978677415,
+		"UTC":          "2021-05-14T00:49:00Z",
+		"X":            1.8613342171640765,
+		"age":          1.243379544011377,
+		"alt":          32.39141930592652,
+		"angle":        156.2582254528502,
+		"az":           0.004671803057548289,
+		"dec":          77.407064,
+		"fraction":     0.04210479858382027,
+		"illumination": 4.231535575044432,
+		"ra":           88.792958,
+		"separation":   54.33338732802028,
+	}
 
 	// Convert the JSON response:
 	err := json.Unmarshal(y.Body.Bytes(), &response)
 
+	// Obtain the Local Civil Time maximum of the maximum and test whether or not it exists:
+	LCT, exists := response.Maximum["LCT"]
+	assert.True(t, exists)
+
+	// Obtain the refraction of the maximum and test whether or not it exists:
+	R, exists := response.Maximum["R"]
+	assert.True(t, exists)
+
+	// Obtain the Universal Time maximum of the maximum and test whether or not it exists:
+	UTC, exists := response.Maximum["UTC"]
+	assert.True(t, exists)
+
+	// Obtain the airmass (X) of the maximum and test whether or not it exists:
+	X, exists := response.Maximum["X"]
+	assert.True(t, exists)
+
+	// Obtain the age at the the maximum and test whether or not it exists:
+	age, exists := response.Maximum["age"]
+	assert.True(t, exists)
+
+	// Obtain the altitude of the maximum and test whether or not it exists:
+	alt, exists := response.Maximum["alt"]
+	assert.True(t, exists)
+
+	// Obtain the angle of the maximum and test whether or not it exists:
+	angle, exists := response.Maximum["angle"]
+	assert.True(t, exists)
+
+	// Obtain the azimuth of the maximum and test whether or not it exists:
+	az, exists := response.Maximum["az"]
+	assert.True(t, exists)
+
+	// Obtain the declination of the maximum and test whether or not it exists:
+	dec, exists := response.Maximum["dec"]
+	assert.True(t, exists)
+
+	// Obtain the fraction of the maximum and test whether or not it exists:
+	fraction, exists := response.Maximum["fraction"]
+	assert.True(t, exists)
+
+	// Obtain the illumination of the maximum and test whether or not it exists:
+	illumination, exists := response.Maximum["illumination"]
+	assert.True(t, exists)
+
+	// Obtain the right ascension of the maximum and test whether or not it exists:
+	ra, exists := response.Maximum["ra"]
+	assert.True(t, exists)
+
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-
-	// Assert that the response is empty:
-	assert.Equal(t, 0, len(response.Set))
-	assert.Equal(t, maximum, response.Maximum)
-	assert.Equal(t, 0, len(response.Rise))
+	assert.Equal(t, R, maximum["R"])
+	assert.Equal(t, LCT, maximum["LCT"])
+	assert.Equal(t, UTC, maximum["UTC"])
+	assert.Equal(t, X, maximum["X"])
+	assert.Equal(t, age, maximum["age"])
+	assert.Equal(t, alt, maximum["alt"])
+	assert.Equal(t, angle, maximum["angle"])
+	assert.Equal(t, az, maximum["az"])
+	assert.Equal(t, dec, maximum["dec"])
+	assert.Equal(t, fraction, maximum["fraction"])
+	assert.Equal(t, illumination, maximum["illumination"])
+	assert.Equal(t, ra, maximum["ra"])
 }
