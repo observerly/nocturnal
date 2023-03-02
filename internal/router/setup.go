@@ -14,7 +14,7 @@ import (
 func getAPIVersionFromEnv() string {
 	value, exists := os.LookupEnv("API_VERSION_LATEST")
 	if !exists {
-		value = "v1"
+		value = "v2"
 	}
 	return value
 }
@@ -114,6 +114,17 @@ func SetupRouter() *gin.Engine {
 			http.StatusOK,
 			gin.H{
 				"description": "Nocturnal 🌑 is observerly's Gin Gonic API for Lunar and Solar advanced scheduling, that utilises Dusk.",
+				"endpoint":    "/api/v1",
+				"name":        "Nocturnal API by observerly",
+			},
+		)
+	})
+
+	r.GET("/api/v2", func(c *gin.Context) {
+		c.JSON(
+			http.StatusOK,
+			gin.H{
+				"description": "Nocturnal 🌑 is observerly's Gin Gonic API for Lunar, Solar and astronomical advanced scheduling, that utilises Dusk.",
 				"endpoint":    fmt.Sprintf("/api/%v", version),
 				"name":        "Nocturnal API by observerly",
 			},
@@ -122,7 +133,7 @@ func SetupRouter() *gin.Engine {
 
 	// 404 Handler, ensure we are always redirected from api to the latest version of the API:
 	r.NoRoute(func(c *gin.Context) {
-		c.Redirect(http.StatusFound, "/api/v1")
+		c.Redirect(http.StatusFound, "/api/v2")
 	})
 
 	return r
