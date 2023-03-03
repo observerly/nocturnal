@@ -20,14 +20,16 @@ steps:
         --region=$_REGION_NAME \
         --platform managed \
         --allow-unauthenticated \
-        --set-env-vars "API_VERSION_LATEST=v1" \
+        --set-env-vars "API_VERSION_LATEST=v2" \
         --set-env-vars "GIN_MODE=release"
+        --set-env-vars "SENTRY_DSN=$_SENTRY_DSN" \
 
 substitutions:
   # Google Cloud Build / Run variables:
   _IMAGE_NAME: observerly-nocturnal
   _REGION_NAME: us-central1
   _SERVICE_NAME: nocturnal
+  _SENTRY_DSN: ''
 
 options:
   logging: CLOUD_LOGGING_ONLY

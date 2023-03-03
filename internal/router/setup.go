@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/getsentry/sentry-go"
+	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -98,6 +100,26 @@ func SetupRouter() *gin.Engine {
 	}
 
 	r.Use(CORSMiddleware(config))
+
+	// Initialise Sentry if GIN_MODE is release and DSN is set:
+	dsn := os.Getenv("SENTRY_DSN")
+
+	if mode == "release" && dsn != "" {
+		// To initialize Sentry's handler, you need to initialize Sentry itself beforehand:
+		if err := sentry.Init(sentry.ClientOptions{
+			Dsn:           dsn,
+			EnableTracing: true,
+			// Set TracesSampleRate to 1.0 to capture 100%
+			// of transactions for performance monitoring.
+			// We recommend adjusting this value in production,
+			TracesSampleRate: 1.0,
+		}); err != nil {
+			fmt.Printf("Sentry initialization failed: %v\n", err)
+		}
+
+		// Use sentrygin middleware to send errors to Sentry:
+		r.Use(sentrygin.New(sentrygin.Options{}))
+	}
 
 	r.GET("/version", func(c *gin.Context) {
 		c.JSON(
