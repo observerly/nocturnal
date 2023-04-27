@@ -104,7 +104,16 @@ func SetupRouter() *gin.Engine {
 	// Initialise Sentry if GIN_MODE is release and DSN is set:
 	dsn := os.Getenv("SENTRY_DSN")
 
+	// If we have a dsn, print out an obfuscated version of it with the last 10 characters replace with '*':
+	if dsn != "" {
+		fmt.Printf("SENTRY_DSN: %v\n", strings.Repeat("*", len(dsn)-10)+dsn[len(dsn)-10:])
+	}
+
+	// If we are in release mode and have a DSN, initialise Sentry:
 	if mode == "release" && dsn != "" {
+		// Make a log that we are initialising Sentry:
+		fmt.Println("Initialising Sentry...")
+
 		// To initialize Sentry's handler, you need to initialize Sentry itself beforehand:
 		if err := sentry.Init(sentry.ClientOptions{
 			Dsn:           dsn,
