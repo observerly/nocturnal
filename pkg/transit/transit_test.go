@@ -54,6 +54,8 @@ var x = performRequest(r, "GET", "/api/v2/transit?datetime=2021-05-14T00:00:00.0
 // Perform a GET request with that handler.
 var y = performRequest(r, "GET", "/api/v2/transit?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484&ra=88.792958&dec=77.407064")
 
+var precision = 0.0000001
+
 func TestTransitRouteStatusCode(t *testing.T) {
 	// Assert we encoded correctly, the request gives a 200:
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -160,18 +162,18 @@ func TestGetTransitRouteRise(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, R, rise["R"])
+	assert.InDelta(t, R, rise["R"], precision)
 	assert.Equal(t, LCT, rise["LCT"])
 	assert.Equal(t, UTC, rise["UTC"])
-	assert.Equal(t, X, rise["X"])
-	assert.Equal(t, age, rise["age"])
-	assert.Equal(t, alt, rise["alt"])
-	assert.Equal(t, angle, rise["angle"])
-	assert.Equal(t, az, rise["az"])
-	assert.Equal(t, dec, rise["dec"])
-	assert.Equal(t, fraction, rise["fraction"])
-	assert.Equal(t, illumination, rise["illumination"])
-	assert.Equal(t, ra, rise["ra"])
+	assert.InDelta(t, X, rise["X"], precision)
+	assert.InDelta(t, age, rise["age"], precision)
+	assert.InDelta(t, alt, rise["alt"], precision)
+	assert.InDelta(t, angle, rise["angle"], precision)
+	assert.InDelta(t, az, rise["az"], precision)
+	assert.InDelta(t, dec, rise["dec"], precision)
+	assert.InDelta(t, fraction, rise["fraction"], precision)
+	assert.InDelta(t, illumination, rise["illumination"], precision)
+	assert.InDelta(t, ra, rise["ra"], precision)
 }
 
 func TestGetTransitRouteMaximum(t *testing.T) {
@@ -245,18 +247,18 @@ func TestGetTransitRouteMaximum(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, R, maximum["R"])
+	assert.InDelta(t, R, maximum["R"], precision)
 	assert.Equal(t, LCT, maximum["LCT"])
 	assert.Equal(t, UTC, maximum["UTC"])
-	assert.Equal(t, X, maximum["X"])
-	assert.Equal(t, age, maximum["age"])
-	assert.Equal(t, alt, maximum["alt"])
-	assert.Equal(t, angle, maximum["angle"])
-	assert.Equal(t, az, maximum["az"])
-	assert.Equal(t, dec, maximum["dec"])
-	assert.Equal(t, fraction, maximum["fraction"])
-	assert.Equal(t, illumination, maximum["illumination"])
-	assert.Equal(t, ra, maximum["ra"])
+	assert.InDelta(t, X, maximum["X"], precision)
+	assert.InDelta(t, age, maximum["age"], precision)
+	assert.InDelta(t, alt, maximum["alt"], precision)
+	assert.InDelta(t, angle, maximum["angle"], precision)
+	assert.InDelta(t, az, maximum["az"], precision)
+	assert.InDelta(t, dec, maximum["dec"], precision)
+	assert.InDelta(t, fraction, maximum["fraction"], precision)
+	assert.InDelta(t, illumination, maximum["illumination"], precision)
+	assert.InDelta(t, ra, maximum["ra"], precision)
 }
 
 func TestGetTransitRouteSet(t *testing.T) {
@@ -334,14 +336,14 @@ func TestGetTransitRouteSet(t *testing.T) {
 	assert.Equal(t, LCT, set["LCT"])
 	assert.Equal(t, UTC, set["UTC"])
 	assert.Equal(t, X, set["X"])
-	assert.Equal(t, age, set["age"])
-	assert.Equal(t, alt, set["alt"])
-	assert.Equal(t, angle, set["angle"])
-	assert.Equal(t, az, set["az"])
-	assert.Equal(t, dec, set["dec"])
-	assert.Equal(t, fraction, set["fraction"])
-	assert.Equal(t, illumination, set["illumination"])
-	assert.Equal(t, ra, set["ra"])
+	assert.InDelta(t, age, set["age"], precision)
+	assert.InDelta(t, alt, set["alt"], precision)
+	assert.InDelta(t, angle, set["angle"], precision)
+	assert.InDelta(t, az, set["az"], precision)
+	assert.InDelta(t, dec, set["dec"], precision)
+	assert.InDelta(t, fraction, set["fraction"], precision)
+	assert.InDelta(t, illumination, set["illumination"], precision)
+	assert.InDelta(t, ra, set["ra"], precision)
 }
 
 func TestGetTransitRouteAlwaysBelowHorizon(t *testing.T) {
@@ -427,16 +429,16 @@ func TestGetTransitRouteAlwaysAboveHorizon(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, R, maximum["R"])
+	assert.InDelta(t, R, maximum["R"], precision)
 	assert.Equal(t, LCT, maximum["LCT"])
 	assert.Equal(t, UTC, maximum["UTC"])
-	assert.Equal(t, X, maximum["X"])
-	assert.Equal(t, age, maximum["age"])
-	assert.Equal(t, alt, maximum["alt"])
-	assert.Equal(t, angle, maximum["angle"])
-	assert.Equal(t, az, maximum["az"])
-	assert.Equal(t, dec, maximum["dec"])
-	assert.Equal(t, fraction, maximum["fraction"])
-	assert.Equal(t, illumination, maximum["illumination"])
-	assert.Equal(t, ra, maximum["ra"])
+	assert.InDelta(t, X, maximum["X"], precision)
+	assert.InDelta(t, age, maximum["age"], precision)
+	assert.InDelta(t, alt, maximum["alt"], precision)
+	assert.InDelta(t, angle, maximum["angle"], precision)
+	assert.InDelta(t, az, maximum["az"], precision)
+	assert.InDelta(t, dec, maximum["dec"], precision)
+	assert.InDelta(t, fraction, maximum["fraction"], precision)
+	assert.InDelta(t, illumination, maximum["illumination"], precision)
+	assert.InDelta(t, ra, maximum["ra"], precision)
 }

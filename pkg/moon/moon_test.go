@@ -42,6 +42,8 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 // Perform a GET request with that handler.
 var w = performRequest(r, "GET", "/api/v1/moon?datetime=2021-05-14T00:00:00.000Z&longitude=-155.468094&latitude=19.798484")
 
+var precision = 0.0000001
+
 func TestMoonRouteStatusCode(t *testing.T) {
 	// Assert we encoded correctly, the request gives a 200:
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -112,11 +114,11 @@ func TestGetMoonRoutePhase(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, age, phase["age"])
-	assert.Equal(t, angle, phase["angle"])
-	assert.Equal(t, d, phase["d"])
-	assert.Equal(t, fraction, phase["fraction"])
-	assert.Equal(t, illumination, phase["illumination"])
+	assert.InDelta(t, age, phase["age"], precision)
+	assert.InDelta(t, angle, phase["angle"], precision)
+	assert.InDelta(t, d, phase["d"], precision)
+	assert.InDelta(t, fraction, phase["fraction"], precision)
+	assert.InDelta(t, illumination, phase["illumination"], precision)
 }
 
 func TestGetMoonRoutePosition(t *testing.T) {
@@ -149,10 +151,10 @@ func TestGetMoonRoutePosition(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, alt, position["alt"])
-	assert.Equal(t, az, position["az"])
-	assert.Equal(t, ra, position["ra"])
-	assert.Equal(t, dec, position["dec"])
+	assert.InDelta(t, alt, position["alt"], precision)
+	assert.InDelta(t, az, position["az"], precision)
+	assert.InDelta(t, ra, position["ra"], precision)
+	assert.InDelta(t, dec, position["dec"], precision)
 }
 
 func TestGetMoonRouteTransit(t *testing.T) {

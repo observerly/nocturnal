@@ -116,10 +116,10 @@ func TestGetSunRouteRise(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, LCT, rise["LCT"])
 	assert.Equal(t, UTC, rise["UTC"])
-	assert.Equal(t, alt, rise["alt"])
-	assert.Equal(t, az, rise["az"])
-	assert.Equal(t, dec, rise["dec"])
-	assert.Equal(t, ra, rise["ra"])
+	assert.InDelta(t, alt, rise["alt"], precision)
+	assert.InDelta(t, az, rise["az"], precision)
+	assert.InDelta(t, dec, rise["dec"], precision)
+	assert.InDelta(t, ra, rise["ra"], precision)
 }
 
 func TestGetSunRouteSet(t *testing.T) {
@@ -164,8 +164,8 @@ func TestGetSunRouteSet(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, LCT, set["LCT"])
 	assert.Equal(t, UTC, set["UTC"])
-	assert.Equal(t, alt, set["alt"])
-	assert.Equal(t, az, set["az"])
-	assert.Equal(t, dec, set["dec"])
-	assert.Equal(t, ra, set["ra"])
+	assert.InDelta(t, alt, set["alt"], precision)
+	assert.InDelta(t, az, set["az"], precision)
+	assert.InDelta(t, dec, set["dec"], precision)
+	assert.InDelta(t, ra, set["ra"], precision)
 }

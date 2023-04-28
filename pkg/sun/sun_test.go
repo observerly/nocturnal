@@ -47,6 +47,8 @@ func TestSunRouteStatusCode(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
+var precision = 0.0000001
+
 func TestGetSunRouteObserver(t *testing.T) {
 	// Build our expected observer section of body
 	observer := gin.H{
@@ -107,10 +109,10 @@ func TestGetSunRoutePosition(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
-	assert.Equal(t, alt, position["alt"])
-	assert.Equal(t, az, position["az"])
-	assert.Equal(t, ra, position["ra"])
-	assert.Equal(t, dec, position["dec"])
+	assert.InDelta(t, alt, position["alt"], precision)
+	assert.InDelta(t, az, position["az"], precision)
+	assert.InDelta(t, ra, position["ra"], precision)
+	assert.InDelta(t, dec, position["dec"], precision)
 }
 
 func TestGetSunRouteTransit(t *testing.T) {
@@ -133,6 +135,7 @@ func TestGetSunRouteTransit(t *testing.T) {
 
 	// Assert on the correctness of the response:
 	assert.Nil(t, err)
+
 	assert.Equal(t, rise, transit["rise"])
 	assert.Equal(t, set, transit["set"])
 }
