@@ -11,6 +11,8 @@ import (
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	middleware "github.com/observerly/nocturnal/internal/middleware"
 )
 
 func getAPIVersionFromEnv() string {
@@ -85,6 +87,7 @@ func SetupRouter() *gin.Engine {
 		c.AbortWithStatus(http.StatusInternalServerError)
 	}))
 
+	// Setup Cross Origin Resource Sharing:
 	config := cors.Config{
 		AllowOrigins: []string{
 			"https://observerly.com",
@@ -100,6 +103,9 @@ func SetupRouter() *gin.Engine {
 	}
 
 	r.Use(CORSMiddleware(config))
+
+	// Setup Helmet Security Headers:
+	r.Use(middleware.HelmetMiddleware())
 
 	// Initialise Sentry if GIN_MODE is release and DSN is set:
 	dsn := os.Getenv("SENTRY_DSN")
